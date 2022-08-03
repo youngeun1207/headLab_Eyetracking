@@ -22,12 +22,10 @@ let painting = false;
 let filling = false;
 
 function stopPainting(){
-    console.log("stop");
     painting = false;
 }
 
 function startPainting(){
-    console.log("start");
     painting =  true;
 }
 
@@ -48,8 +46,15 @@ function onMouseMove(event){
 function onTouchMove(event){
     console.log("t_move");
     const rect = event.target.getBoundingClientRect();
-    const x = event.touches[0].clientX - window.pageXOffset - rect.left;
-    const y = event.touches[0].clientY - window.pageYOffset - rect.top;
+    var x, y = 0;
+
+    if(window.innerHeight < window.innerWidth){
+        x = event.touches[0].clientX - window.pageXOffset - rect.left;
+        y = event.touches[0].clientY - window.pageYOffset - rect.top;
+    } else {
+        x = event.touches[0].clientX - window.pageXOffset - rect.left;
+        y = event.touches[0].clientY - window.pageYOffset - rect.top;
+    }
     if(!painting){
         ctx.beginPath();   //경로 생성
         ctx.moveTo(x, y);   //선 시작 좌표
@@ -105,12 +110,15 @@ if(canvas){
     canvas.addEventListener("touchstart" , startPainting);
     canvas.addEventListener("touchend" , stopPainting);
     canvas.addEventListener("touchmove" , onTouchMove);
-    canvas.addEventListener("touchleave" , stopPainting);
+    canvas.addEventListener("tap",handleCanvasClick);
 
     canvas.addEventListener("mousedown" , startPainting);
     canvas.addEventListener("mouseup" , stopPainting);
     canvas.addEventListener("mousemove" , onMouseMove);
+
+    canvas.addEventListener("mouseout" , stopPainting);
     canvas.addEventListener("mouseleave" , stopPainting);
+    
     canvas.addEventListener("click",handleCanvasClick);
 
     canvas.addEventListener("contextmenu",handleCM)
