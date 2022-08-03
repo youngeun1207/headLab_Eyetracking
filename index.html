@@ -17,9 +17,9 @@
     <body>
         <div class="image-test">
             <div class="fit-picture" id="fit-picture" alt="image"></div>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" class="upload-container">
                 <label for="chooseFile" class="upload-button" id="upload-button">Click Here</label>
-                <input type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
+                <input type="file" class="file-input" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
             </form>
         </div>
         <div class="draw">
