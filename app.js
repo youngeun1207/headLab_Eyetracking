@@ -8,10 +8,19 @@ const clear = document.getElementById("jsClear");
 const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "2c2c2c";
-const CANVAS_SIZE = 600;
+const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth;
+const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight;
 
-canvas.width = CANVAS_SIZE;
-canvas.height =CANVAS_SIZE;
+canvas.width = CANVAS_WIDTH;
+canvas.height =CANVAS_HEIGHT;
+
+// if(window.innerWidth <= 1024){
+//     canvas.width = CANVAS_SIZE*0.7;
+//     canvas.height =CANVAS_SIZE*0.7;
+
+//     document.getElementById("controls_btns").style.flexDirection = "column";
+//     document.getElementById("controls_btns").style.marginBottom = "auto";
+// }
 
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
@@ -116,7 +125,7 @@ function handleClearClick(){
 
 function handleCanvasClick(){
     if(filling){
-        ctx.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
+        ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
     }
 }
 
