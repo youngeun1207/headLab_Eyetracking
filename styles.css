@@ -3,29 +3,28 @@ body{
     background-color: #f6f9fc;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     display: flex;
-    /* flex-direction: column; */
-    /* align-items: center; */
-    padding: 50px 50px;
+    flex-direction: column;
+    align-items: center;
+    padding: 5% 5%;
     overflow: hidden;
     height: 100%;
 }
 body * { touch-action: none; }
-div.draw {
-    width: 50%;
-    float: right;
+
+.main-page {
+    width: 100%;
     box-sizing: border-box;
+    display: flex;
 }
-div.draw-container {
-    position: relative;
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-left: auto; 
-    margin-right: auto;
-    text-align:center
+
+div.draw {
+    width: 60%;
+    box-sizing: border-box;
+    float: right;
 }
 div.image-test {
-    width: 50%;
+    width: 40%;
+    float: left;
     box-sizing: border-box;
     margin-right: 50px;
 }
@@ -34,7 +33,7 @@ div.image-test {
     cursor: pointer;
     background-color: white;
     padding: 5px 0px;
-    width: 100px;
+    width: 120px;
     text-align: center;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -70,28 +69,36 @@ label {
 }
 
 .canvas{
-    width: 500px;
-    height: 500px;
+    width: 600px;
+    height: 600px;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .controls{
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.controls .controls_btns{
     margin-bottom: 30px;
-}
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
 
+    align-items: center;
+    /* flex-direction: row; */
+}
+.jsRange {
+    margin-left: auto;
+    /* margin-right: 30px; */
+}
+.controls_btns {
+    display: flex;
+    height: 30px;
+    margin-right: 30px;
+}
 .controls_btns button{
+    float: left;
     all: unset;
     cursor: pointer;
     background-color: white;
-    padding: 5px 0px;
+    padding: 7px 2px;
     width: 80px;
     text-align: center;
     border-radius: 5px;
@@ -104,11 +111,11 @@ label {
 }
 
 .controls_btns button:active{
-    transform: scale(0.98);
+    transform: scale(0.95);
 }
 
 .controls .controls_colors{
-    display: flex;
+    margin-left: 20px;
 }
 
 .controls_colors .controls_color{
@@ -120,10 +127,5 @@ label {
 
     margin-left: 5px;
     margin-right: 5px;
-
-    float: right;
-}
-
-#jsRange {
-    margin-bottom: 20px;
+    float: left;
 }

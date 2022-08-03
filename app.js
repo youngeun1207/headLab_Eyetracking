@@ -8,7 +8,7 @@ const clear = document.getElementById("jsClear");
 const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "2c2c2c";
-const CANVAS_SIZE = 500;
+const CANVAS_SIZE = 600;
 
 canvas.width = CANVAS_SIZE;
 canvas.height =CANVAS_SIZE;
