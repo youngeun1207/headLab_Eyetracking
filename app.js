@@ -64,8 +64,8 @@ function onTouchMove(event){
         x = event.touches[0].clientX - window.pageXOffset - rect.left;
         y = event.touches[0].clientY - window.pageYOffset - rect.top;
     } else {
-        x = event.touches[0].clientX - window.pageYOffset - rect.top;
-        y = event.touches[0].clientY - window.pageXOffset - rect.left;
+        x = event.touches[0].clientX - window.pageXOffset - rect.left;
+        y = event.touches[0].clientY - window.pageYOffset - rect.top;
     }
     if(earsing && painting){
         ctx.clearRect(x, y, ctx.lineWidth, ctx.lineWidth);
