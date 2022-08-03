@@ -13,9 +13,6 @@ const CANVAS_SIZE = 500;
 canvas.width = CANVAS_SIZE;
 canvas.height =CANVAS_SIZE;
 
-// ctx.fillStyle = "white";
-// ctx.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
-
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
@@ -67,8 +64,8 @@ function onTouchMove(event){
         x = event.touches[0].clientX - window.pageXOffset - rect.left;
         y = event.touches[0].clientY - window.pageYOffset - rect.top;
     } else {
-        x = event.touches[0].clientX - window.pageXOffset - rect.left;
-        y = event.touches[0].clientY - window.pageYOffset - rect.top;
+        x = event.touches[0].clientX - window.pageYOffset - rect.top;
+        y = event.touches[0].clientY - window.pageXOffset - rect.left;
     }
     if(earsing && painting){
         ctx.clearRect(x, y, ctx.lineWidth, ctx.lineWidth);
