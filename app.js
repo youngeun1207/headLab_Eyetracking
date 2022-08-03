@@ -100,10 +100,10 @@ function handleModeClick(){
     }
     else if(filling === true) {
         filling=false;
-        mode.innerText="FILL";
+        mode.innerText="PAINT";
     }else {
         filling = true;
-        mode.innerText="PAINT"
+        mode.innerText="FILL"
         
     }
 }
@@ -174,3 +174,20 @@ if(erase){
 if(clear){
     clear.addEventListener("click",handleClearClick);
 }
+
+
+function loadFile(input) {
+    var file = input.files[0];
+    var newImage = document.createElement("img");
+    newImage.setAttribute("class", 'fit-picture');
+
+    newImage.src = URL.createObjectURL(file);
+
+    var container = document.getElementById('fit-picture');
+    if(container.childElementCount > 0){
+        container.replaceChild(newImage, container.lastElementChild);
+    }
+    else{
+        container.appendChild(newImage);
+    }
+};
