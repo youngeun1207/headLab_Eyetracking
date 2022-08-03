@@ -25,15 +25,17 @@ function stopPainting(){
     painting = false;
 }
 
-function stopPaintingMobile(event){
-    painting = false;
+function startPaintingMobile(event){
+    painting = true;
+    const rect = event.target.getBoundingClientRect();
+    
     ctx.beginPath();
-    ctx.moveTo(event.touches[0].clientX - window.pageXOffset - rect.left, 
+    ctx.moveTo(event.touches[0].clientX - window.pageXOffset - rect.left,
         event.touches[0].clientY - window.pageYOffset - rect.top);
 }
 
 function startPainting(){
-    painting =  true;
+    painting = true;
 }
 
 function onMouseMove(event){
@@ -62,10 +64,7 @@ function onTouchMove(event){
         x = event.touches[0].clientX - window.pageXOffset - rect.left;
         y = event.touches[0].clientY - window.pageYOffset - rect.top;
     }
-    if(!painting){
-        ctx.beginPath();   //경로 생성
-        ctx.moveTo(x, y);   //선 시작 좌표
-    } else{
+    if(painting){
         // console.log("creating line in" , x ,y);
         ctx.lineTo(x, y);   //선 끝 좌표
         ctx.stroke();   //선 그리기.
@@ -114,8 +113,8 @@ function handleSaveClick(){
 }
 
 if(canvas){
-    canvas.addEventListener("touchstart" , startPainting);
-    canvas.addEventListener("touchend" , stopPaintingMobile);
+    canvas.addEventListener("touchstart" , startPaintingMobile);
+    canvas.addEventListener("touchend" , stopPainting);
     canvas.addEventListener("touchmove" , onTouchMove);
     canvas.addEventListener("tap",handleCanvasClick);
 
