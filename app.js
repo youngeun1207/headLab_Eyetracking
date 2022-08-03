@@ -22,25 +22,44 @@ let painting = false;
 let filling = false;
 
 function stopPainting(){
+    console.log("stop");
     painting = false;
 }
 
 function startPainting(){
+    console.log("start");
     painting =  true;
 }
 
 function onMouseMove(event){
+    console.log("move");
     const x = event.offsetX;
     const y = event.offsetY;
     if(!painting){
         ctx.beginPath();   //경로 생성
         ctx.moveTo(x, y);   //선 시작 좌표
     }else{
-        //console.log("creating line in" , x ,y);
+        // console.log("creating line in" , x ,y);
         ctx.lineTo(x, y);   //선 끝 좌표
         ctx.stroke();   //선 그리기.
     }
 }
+
+function onTouchMove(event){
+    console.log("t_move");
+    const rect = event.target.getBoundingClientRect();
+    const x = event.touches[0].clientX - window.pageXOffset - rect.left;
+    const y = event.touches[0].clientY - window.pageYOffset - rect.top;
+    if(!painting){
+        ctx.beginPath();   //경로 생성
+        ctx.moveTo(x, y);   //선 시작 좌표
+    }else{
+        // console.log("creating line in" , x ,y);
+        ctx.lineTo(x, y);   //선 끝 좌표
+        ctx.stroke();   //선 그리기.
+    }
+}
+
 
 function handleColorClick(event){
     const color = event.target.style.backgroundColor;
@@ -64,7 +83,6 @@ function handleModeClick(){
     }
 }
 
-
 function handleCanvasClick(){
     if(filling){
         ctx.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
@@ -84,21 +102,29 @@ function handleSaveClick(){
 }
 
 if(canvas){
-    canvas.addEventListener("mousemove" , onMouseMove);
+    canvas.addEventListener("touchstart" , startPainting);
+    canvas.addEventListener("touchend" , stopPainting);
+    canvas.addEventListener("touchmove" , onTouchMove);
+    canvas.addEventListener("touchleave" , stopPainting);
+
     canvas.addEventListener("mousedown" , startPainting);
     canvas.addEventListener("mouseup" , stopPainting);
+    canvas.addEventListener("mousemove" , onMouseMove);
     canvas.addEventListener("mouseleave" , stopPainting);
     canvas.addEventListener("click",handleCanvasClick);
+
     canvas.addEventListener("contextmenu",handleCM)
 }
 
 Array.from(colors).forEach(color => color.addEventListener("click",handleColorClick));
 
 if(range){
+    console.log("1");
     range.addEventListener("input",handleRangeChange);
 }
 
 if(mode){
+    console.log("2");
     mode.addEventListener("click",handleModeClick);
 }
 
