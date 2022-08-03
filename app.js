@@ -18,14 +18,6 @@ ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
 
-//fill paint 
-/*
-ctx.fillStyle ="green";
-ctx.fillRect(50,20,100,49);
-ctx.fillStyle ="purple";
-ctx.fillRect(80,100,100,49);
-*/
-
 let painting = false;
 let filling = false;
 
@@ -41,14 +33,12 @@ function onMouseMove(event){
     const x = event.offsetX;
     const y = event.offsetY;
     if(!painting){
-        //console.log("creating path in" , x ,y);
         ctx.beginPath();   //경로 생성
         ctx.moveTo(x, y);   //선 시작 좌표
     }else{
         //console.log("creating line in" , x ,y);
         ctx.lineTo(x, y);   //선 끝 좌표
-        ctx.stroke();   //선 그리기
-        //ctx.closePath();  //현대미술같은 선들..
+        ctx.stroke();   //선 그리기.
     }
 }
 
