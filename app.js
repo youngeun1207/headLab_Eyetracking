@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const erase = document.getElementById("jsEraser");
+const clear = document.getElementById("jsClear");
 const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "2c2c2c";
@@ -11,8 +13,8 @@ const CANVAS_SIZE = 500;
 canvas.width = CANVAS_SIZE;
 canvas.height =CANVAS_SIZE;
 
-ctx.fillStyle = "white";
-ctx.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
+// ctx.fillStyle = "white";
+// ctx.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
 
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
@@ -20,6 +22,7 @@ ctx.lineWidth = 2.5;
 
 let painting = false;
 let filling = false;
+let earsing = false;
 
 function stopPainting(){
     painting = false;
@@ -42,12 +45,15 @@ function onMouseMove(event){
     console.log("move");
     const x = event.offsetX;
     const y = event.offsetY;
-    if(!painting){
+    if(earsing && painting){
+        ctx.clearRect(x, y, ctx.lineWidth, ctx.lineWidth);
+    } else if(!painting){
         ctx.beginPath();   //경로 생성
         ctx.moveTo(x, y);   //선 시작 좌표
     }else{
         // console.log("creating line in" , x ,y);
         ctx.lineTo(x, y);   //선 끝 좌표
+        ctx.lineCap = 'round';
         ctx.stroke();   //선 그리기.
     }
 }
@@ -64,9 +70,12 @@ function onTouchMove(event){
         x = event.touches[0].clientX - window.pageXOffset - rect.left;
         y = event.touches[0].clientY - window.pageYOffset - rect.top;
     }
-    if(painting){
+    if(earsing && painting){
+        ctx.clearRect(x, y, ctx.lineWidth, ctx.lineWidth);
+    } else if(painting){
         // console.log("creating line in" , x ,y);
         ctx.lineTo(x, y);   //선 끝 좌표
+        ctx.lineCap = 'round';
         ctx.stroke();   //선 그리기.
     }
 }
@@ -74,6 +83,7 @@ function onTouchMove(event){
 
 function handleColorClick(event){
     const color = event.target.style.backgroundColor;
+
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
 }
@@ -84,14 +94,27 @@ function handleRangeChange(event){
 }
 
 function handleModeClick(){
-    if(filling ===true){
+    if(earsing === true){
+        earsing = false;
+        erase.style.background = "#ffffff";
+    }
+    else if(filling === true) {
         filling=false;
         mode.innerText="FILL";
-    }else{
-        filling =true;
+    }else {
+        filling = true;
         mode.innerText="PAINT"
         
     }
+}
+
+function handleEraserClick(){
+    earsing = true;
+    erase.style.background = "#c4c4c4";
+}
+
+function handleClearClick(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function handleCanvasClick(){
@@ -133,15 +156,21 @@ if(canvas){
 Array.from(colors).forEach(color => color.addEventListener("click",handleColorClick));
 
 if(range){
-    console.log("1");
     range.addEventListener("input",handleRangeChange);
 }
 
 if(mode){
-    console.log("2");
     mode.addEventListener("click",handleModeClick);
 }
 
 if(saveBtn){
     saveBtn.addEventListener("click",handleSaveClick);
+}
+
+if(erase){
+    erase.addEventListener("click",handleEraserClick);
+}
+
+if(clear){
+    clear.addEventListener("click",handleClearClick);
 }
