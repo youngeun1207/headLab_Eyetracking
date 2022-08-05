@@ -99,11 +99,12 @@ var jsPsych = initJsPsych({
   }
 
   var begin = {
-    type: jsPsychHtmlKeyboardResponse,
+    type: jsPsychHtmlButtonResponse,
     stimulus: `<p>The next screen will show an image to demonstrate adding the webgazer extension to a trial.</p>
       <p>Just look at the image while eye tracking data is collected. The trial will end automatically.</p>
       <p>Press any key to start.</p>
-    `
+    `,
+    choices: ['Got it']
   }
 
   var trial = {
