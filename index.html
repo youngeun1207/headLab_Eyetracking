@@ -3,10 +3,20 @@
     <head>
         <title>My experiment</title>
         <script src="https://unpkg.com/jspsych@7.3.0"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.1"></script>
         <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.1"></script>
-        <link href="https://unpkg.com/jspsych@7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+        <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.1"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-canvas-keyboard-response@1.1.1"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-sketchpad@1.0.2"></script>
+
+
+
+        <script src="https://unpkg.com/@jspsych/plugin-webgazer-init-camera@1.0.1"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@1.0.1"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-webgazer-validate@1.0.1"></script>
+        <script src="https://cdn.jsdelivr.net/gh/jspsych/jsPsych@jspsych@7.1.2/examples/js/webgazer/webgazer.js"></script>
+        <script src="https://unpkg.com/@jspsych/extension-webgazer@1.0.1"></script>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +24,8 @@
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="styles.css">
     </head>
-    <body>
-        <div class="controls" id="controls">
+    <body id="body">
+        <!-- <div class="controls" id="controls">
             <div class="controls_btns" id="controls_btns">
                 <button id="jsMode">Paint</button>
                 <button id="jsEraser">Eraser</button>
@@ -47,7 +57,8 @@
                 <canvas id="jsCanvas" class="canvas"></canvas>
             </div>
         </div>
-        
+        <script src="app.js"></script> -->
     </body>
-    <script src="app.js"></script>
+    
+    <script src="eyetracking.js"></script>
 </html>
