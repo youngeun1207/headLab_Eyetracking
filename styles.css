@@ -12,7 +12,7 @@ body{
     overflow: hidden;
     height: 100%;
 }
-/* body * { touch-action: none; } */
+body * { touch-action: none; }
 
 .main-page {
     width: 100%;
@@ -145,7 +145,7 @@ label {
 
 .gaze-point{
     text-align: center;
-    
+
 }
 
   /*  */
