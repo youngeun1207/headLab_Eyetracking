@@ -14,14 +14,6 @@ const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight;
 canvas.width = CANVAS_WIDTH;
 canvas.height =CANVAS_HEIGHT;
 
-// if(window.innerWidth <= 1024){
-//     canvas.width = CANVAS_SIZE*0.7;
-//     canvas.height =CANVAS_SIZE*0.7;
-
-//     document.getElementById("controls_btns").style.flexDirection = "column";
-//     document.getElementById("controls_btns").style.marginBottom = "auto";
-// }
-
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
@@ -29,6 +21,8 @@ ctx.lineWidth = 2.5;
 let painting = false;
 let filling = false;
 let earsing = false;
+
+
 
 function stopPainting(){
     painting = false;
@@ -86,9 +80,10 @@ function onTouchMove(event){
     }
 }
 
-
 function handleColorClick(event){
     const color = event.target.style.backgroundColor;
+    Array.from(colors).forEach(color => color.style.border = "none");
+    event.target.style.border = "2px solid #f2f2f2";
 
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
@@ -115,11 +110,13 @@ function handleModeClick(){
 }
 
 function handleEraserClick(){
+    console.log("er");
     earsing = true;
     erase.style.background = "#c4c4c4";
 }
 
 function handleClearClick(){
+    console.log("cr");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -134,12 +131,30 @@ function handleCM(event){
 }
 
 function handleSaveClick(){
+    console.log("sv");
     const image = canvas.toDataURL();
     const link = document.createElement("a");
     link.href=image;
-    link.download ="PaintJS[🎨]";
+    link.download ="PaintJS";
     link.click();
 }
+
+
+function loadFile(input) {
+    var file = input.files[0];
+    var newImage = document.createElement("img");
+    newImage.setAttribute("class", 'fit-picture');
+
+    newImage.src = URL.createObjectURL(file);
+
+    var container = document.getElementById('fit-picture');
+    if(container.childElementCount > 0){
+        container.replaceChild(newImage, container.lastElementChild);
+    }
+    else{
+        container.appendChild(newImage);
+    }
+};
 
 if(canvas){
     canvas.addEventListener("touchstart" , startPaintingMobile);
@@ -180,20 +195,3 @@ if(erase){
 if(clear){
     clear.addEventListener("click",handleClearClick);
 }
-
-
-function loadFile(input) {
-    var file = input.files[0];
-    var newImage = document.createElement("img");
-    newImage.setAttribute("class", 'fit-picture');
-
-    newImage.src = URL.createObjectURL(file);
-
-    var container = document.getElementById('fit-picture');
-    if(container.childElementCount > 0){
-        container.replaceChild(newImage, container.lastElementChild);
-    }
-    else{
-        container.appendChild(newImage);
-    }
-};

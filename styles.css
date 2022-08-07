@@ -12,7 +12,7 @@ body{
     overflow: hidden;
     height: 100%;
 }
-body * { touch-action: none; }
+/* body * { touch-action: none; } */
 
 .main-page {
     width: 100%;
@@ -78,12 +78,13 @@ label {
     text-align: center;
 }
 
-.canvas{
+.jsCanvas{
     width: 100%;
     height: 100%;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    touch-action: none;
 }
 .controls{
     margin-bottom: 30px;
@@ -130,6 +131,7 @@ label {
 }
 
 .controls_colors .controls_color{
+    box-sizing: border-box; 
     width: 30px;
     height: 30px;
     border-radius: 15px;

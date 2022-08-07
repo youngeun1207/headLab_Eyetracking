@@ -1,0 +1,19 @@
+{
+  "name": "headlab_eyetracking",
+  "version": "1.0.0",
+  "description": "headlab eyetracking",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youngeun1207/headLab_Eyetracking.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youngeun1207/headLab_Eyetracking/issues"
+  },
+  "homepage": "https://github.com/youngeun1207/headLab_Eyetracking#readme"
+}
