@@ -101,10 +101,10 @@ function handleModeClick(){
     }
     else if(filling === true) {
         filling=false;
-        mode.innerText="PAINT";
+        mode.innerText="붓";
     }else {
         filling = true;
-        mode.innerText="FILL"
+        mode.innerText="채우기"
         
     }
 }

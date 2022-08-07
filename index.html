@@ -48,10 +48,10 @@
 
     <div class="controls" id="controls">
             <div class="controls_btns" id="controls_btns">
-                <button id="jsMode">Paint</button>
-                <button id="jsEraser">Eraser</button>
-                <button id="jsClear">Clear</button>
-                <button id="jsSave">Save</button>
+                <button id="jsMode">붓</button>
+                <button id="jsEraser">지우개</button>
+                <button id="jsClear">새로 만들기</button>
+                <button id="jsSave">저장</button>
             </div>
             <input type="range" class="jsRange" id="jsRange" min="0.5" max="20.0" value="2.5" step="0.1" />
             <div class="controls_colors" id="jsColors">
@@ -71,7 +71,7 @@
                 <div class="gaze-point" id="gaze-point"></div>
                 <div class="fit-picture" id="fit-picture" alt="image"></div>
                 <form method="post" enctype="multipart/form-data" class="upload-container">
-                    <label for="chooseFile" class="upload-button" id="upload-button">Click Here</label>
+                    <label for="chooseFile" class="upload-button" id="upload-button">참고 이미지</label>
                     <input type="file" class="file-input" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
                 </form>
             </div>
