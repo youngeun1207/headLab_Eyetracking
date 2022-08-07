@@ -1,4 +1,5 @@
 // import webgazer from 'webgazer'
+const gazePoint = document.getElementById("gaze-point");
 
 webgazer.setGazeListener(function(data, elapsedTime) {
   if (data == null) {
@@ -8,10 +9,11 @@ webgazer.setGazeListener(function(data, elapsedTime) {
   var yprediction = data.y; //these y coordinates are relative to the viewport
   // console.log(elapsedTime); //elapsed time is based on time since begin was called
 
-  // console.log(xprediction + " " + yprediction);
+  gazePoint.textContent=String(xprediction + " " + yprediction);
 }).begin();
 
 webgazer.showVideo(false);
+webgazer.showPredictionPoints(false);
 
 var prediction = webgazer.getCurrentPrediction();
 if (prediction) {
