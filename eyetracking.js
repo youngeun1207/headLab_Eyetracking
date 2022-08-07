@@ -39,7 +39,7 @@ window.onbeforeunload = function() {
 * Restart the calibration process by clearing the local storage and reseting the calibration point
 */
 function Restart(){
-  $('#helpModal').modal('hide');
+  // $('#helpModal').modal('hide');
   webgazer.clearData();
   ClearCalibration();
   PopUpInstruction();

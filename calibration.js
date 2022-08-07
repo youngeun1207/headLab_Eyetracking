@@ -121,7 +121,8 @@ function calculateAverage(precisionPercentages) {
 */
 $(document).ready(function () {
     ClearCanvas();
-    helpModalShow();
+    // helpModalShow();
+    Restart();
     $(".Calibration").click(function () { // click event on the calibration buttons
 
         var id = $(this).attr('id');
