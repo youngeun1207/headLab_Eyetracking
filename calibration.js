@@ -122,6 +122,7 @@ function calculateAverage(precisionPercentages) {
 $(document).ready(function () {
     ClearCanvas();
     // helpModalShow();
+    document.getElementById("jsSave").innerText = "저장";
     Restart();
     $(".Calibration").click(function () { // click event on the calibration buttons
 
