@@ -2,7 +2,7 @@
   "name": "headlab_eyetracking",
   "version": "1.0.0",
   "description": "headlab eyetracking",
-  "main": "app.js",
+  "main": "calibration.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/youngeun1207/headLab_Eyetracking/issues"
   },
-  "homepage": "https://github.com/youngeun1207/headLab_Eyetracking#readme"
+  "homepage": "https://github.com/youngeun1207/headLab_Eyetracking#readme",
+  "dependencies": {
+    "bootstrap": "^5.2.0",
+    "sweetalert": "^2.1.2"
+  }
 }
