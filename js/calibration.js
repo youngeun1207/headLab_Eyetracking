@@ -1,6 +1,6 @@
 var PointCalibrate = 0;
 var CalibrationPoints = {};
-
+var calibrationEnd = false;
 /*
  * Clear the canvas and the calibration button.
  */
@@ -190,11 +190,15 @@ $(document).ready(function () {
                             if (isConfirm) {
                                 //clear the calibration & hide the last middle button
                                 ClearCanvas();
-                                canvas.remove();
+                                // canvas.remove();
+                                canvas.style.height = "0px";
                                 webgazer.showVideoPreview(false);
                                 document.getElementById("webgazerVideoContainer").style.zIndex = "-1";
                                 // webgazer.showPredictionPoints(false);
                                 // document.getElementById("webgazerVideoContainer").style.width.height="0px";
+
+                                calibrationEnd = true;
+
                             } else {
                                 //use restart function to restart the calibration
                                 webgazer.clearData();

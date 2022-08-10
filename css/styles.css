@@ -8,7 +8,6 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2% 4%;
     overflow: hidden;
     height: 100%;
 }
@@ -20,8 +19,17 @@ body * {
     user-select:none
 }
 
-.main-page {
+.paint-tool {
+    position: fixed;
+    top: 0;
+    right: 0;
     width: 100%;
+    height: 100%;
+}
+
+.main-page {
+    margin: 0 auto;
+    width: 95%;
     height: 100%;
     box-sizing: border-box;
     display: flex;
@@ -93,17 +101,15 @@ label {
     touch-action: none;
 }
 .controls{
+    width: 95%;
     margin-bottom: 30px;
     box-sizing: border-box;
-    width: 100%;
     display: flex;
-
     align-items: center;
-    /* flex-direction: row; */
+    margin: 2% auto;
 }
 .jsRange {
     margin-left: auto;
-    /* margin-right: 30px; */
 }
 .controls_btns {
     display: flex;
@@ -116,7 +122,7 @@ label {
     cursor: pointer;
     background-color: white;
     padding: 7px 2px;
-    width: 80px;
+    width: 60px;
     text-align: center;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -222,4 +228,13 @@ li {
     width: 320px !important;
     height: 240px !important;
     z-index: 1;
+}
+
+.heatmap {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
 }

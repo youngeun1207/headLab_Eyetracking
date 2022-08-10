@@ -6,6 +6,9 @@ const mode = document.getElementById("jsMode");
 const erase = document.getElementById("jsEraser");
 const clear = document.getElementById("jsClear");
 const saveBtn = document.getElementById("jsSave");
+const exitBtn = document.getElementById("jsExit");
+
+
 
 const INITIAL_COLOR = "2c2c2c";
 const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth;
@@ -45,6 +48,7 @@ function onMouseMove(event){
     console.log("move");
     const x = event.offsetX;
     const y = event.offsetY;
+
     if(earsing && painting){
         ctx.clearRect(x, y, ctx.lineWidth, ctx.lineWidth);
     } else if(!painting){
@@ -131,12 +135,28 @@ function handleCM(event){
 }
 
 function handleSaveClick(){
-    console.log("sv");
     const image = canvas.toDataURL();
     const link = document.createElement("a");
     link.href=image;
     link.download ="PaintJS";
     link.click();
+}
+
+function handleExitClick(event){
+    var heatmapContainer = document.getElementById("heatmap");
+    heatmapContainer.style.zIndex = 1;
+    var heatmapInstance = h337.create({
+        container: heatmapContainer,
+        radius: 50
+    });
+    var data = {
+        max: gazeData.length/10,
+        data: gazeData
+    };
+    heatmapInstance.setData(data);
+    document.getElementsByClassName("heatmap-canvas").height = window.innerHeight;
+    document.getElementsByClassName("heatmap-canvas").width = window.innerWidth;
+    webgazer.end();
 }
 
 
@@ -195,3 +215,7 @@ if(erase){
 if(clear){
     clear.addEventListener("click",handleClearClick);
 }
+
+if(exitBtn){
+    exitBtn.addEventListener("click",handleExitClick);
+  }
