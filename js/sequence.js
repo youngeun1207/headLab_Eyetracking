@@ -81,7 +81,6 @@ function changeToColorCode(color) {
         color = addPadding(color);
     }
     colorCode = "#" + color;
-    console.log(colorCode);
     return colorCode;
 }
 

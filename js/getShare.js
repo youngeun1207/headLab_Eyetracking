@@ -30,7 +30,8 @@ function findReferenceTimestamp(){
     // 참고 이미지 로딩 후 부터 연산..
     var startIndex = gazeData.length;
     if(referenceTimestamp != null){
-        startIndex = timeStamp.findIndex(referenceTimestamp);
+        startIndex = timeStamp.findIndex((e) => e >= referenceTimestamp);
+        console.log(startIndex);
     }
     return startIndex;
 }
