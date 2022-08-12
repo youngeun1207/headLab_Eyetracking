@@ -143,19 +143,8 @@ function handleSaveClick(){
 }
 
 function handleExitClick(event){
-    var heatmapContainer = document.getElementById("heatmap");
-    heatmapContainer.style.zIndex = 1;
-    var heatmapInstance = h337.create({
-        container: heatmapContainer,
-        radius: 50
-    });
-    var data = {
-        max: gazeData.length/10,
-        data: gazeData
-    };
-    heatmapInstance.setData(data);
-    document.getElementsByClassName("heatmap-canvas").height = window.innerHeight;
-    document.getElementsByClassName("heatmap-canvas").width = window.innerWidth;
+    createHeatmap();
+    createSequence();
     webgazer.end();
 }
 
