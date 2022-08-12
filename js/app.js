@@ -8,7 +8,7 @@ const clear = document.getElementById("jsClear");
 const saveBtn = document.getElementById("jsSave");
 const exitBtn = document.getElementById("jsExit");
 
-
+var reference = false;
 
 const INITIAL_COLOR = "2c2c2c";
 const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth;
@@ -143,6 +143,7 @@ function handleSaveClick(){
 }
 
 function handleExitClick(event){
+    showShareData();
     createHeatmap();
     createSequence();
     webgazer.end();
@@ -163,6 +164,8 @@ function loadFile(input) {
     else{
         container.appendChild(newImage);
     }
+
+    reference = true;
 };
 
 if(canvas){

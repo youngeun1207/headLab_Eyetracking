@@ -138,7 +138,7 @@ $(document).ready(function () {
         }
         CalibrationPoints[id]++; // increments values
 
-        if (CalibrationPoints[id] == 1) { //only turn to yellow after 5 clicks
+        if (CalibrationPoints[id] == 5) { //only turn to yellow after 5 clicks
             $(this).css('background-color', 'yellow');
             $(this).prop('disabled', true); //disables the button
             PointCalibrate++;
@@ -194,8 +194,7 @@ $(document).ready(function () {
                                 canvas.style.height = "0px";
                                 webgazer.showVideoPreview(false);
                                 document.getElementById("webgazerVideoContainer").style.zIndex = "-1";
-                                // webgazer.showPredictionPoints(false);
-                                // document.getElementById("webgazerVideoContainer").style.width.height="0px";
+                                webgazer.showPredictionPoints(false);
 
                                 calibrationEnd = true;
 

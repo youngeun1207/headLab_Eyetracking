@@ -29,7 +29,6 @@ function createSequence() {
     for (var i = sampling; i < gazeData.length; i += sampling) {
         colorCode = changeToColorCode(color);
         if (!flag) {
-            console.log('test');
             color -= RED;
             if(color <= GREEN){
                 flag = true;

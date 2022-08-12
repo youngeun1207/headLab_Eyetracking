@@ -1,4 +1,6 @@
 var gazeData = [];
+var timeStamp = [];
+var referenceTimestamp = null;
 
 window.onload = async function() {
   //start the webgazer tracker
@@ -13,6 +15,11 @@ window.onload = async function() {
                 y: data.y
               }
             );
+            timeStamp.push(clock);
+          }
+          if(reference){
+            referenceTimestamp = clock;
+            reference = false;
           }
         }
           // console.log(data); /* data is an object containing an x and y key which are the x and y prediction coordinates (no bounds limiting) */
