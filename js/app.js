@@ -10,11 +10,8 @@ const exitBtn = document.getElementById("jsExit");
 
 
 const dpr = window.devicePixelRatio;
-console.log(dpr);
 
 const INITIAL_COLOR = "2c2c2c";
-// const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth;
-// const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight;
 const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth * dpr;
 const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight * dpr;
 

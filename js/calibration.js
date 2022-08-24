@@ -16,7 +16,7 @@ function ClearCanvas() {
 function PopUpInstruction() {
     ClearCanvas();
     swal({
-        title: "Calibration",
+        title: "조정",
         text: "화면의 9개의 점이 노란색이 될 때까지 각 점을 5번 클릭해주세요.",
         buttons: {
             cancel: false,
@@ -139,12 +139,12 @@ $(document).ready(function () {
         CalibrationPoints[id]++; // increments values
 
         if (CalibrationPoints[id] == 5) { //only turn to yellow after 5 clicks
-            $(this).css('background-color', 'yellow');
+            $(this).css('background-color', 'rgb(255, 219, 85)');
             $(this).prop('disabled', true); //disables the button
             PointCalibrate++;
         } else if (CalibrationPoints[id] < 5) {
             //Gradually increase the opacity of calibration points when click to give some indication to user.
-            var opacity = 0.2 * CalibrationPoints[id] + 0.2;
+            var opacity = 0.15 * CalibrationPoints[id] + 0.4;
             $(this).css('opacity', opacity);
         }
 
@@ -164,7 +164,7 @@ $(document).ready(function () {
 
             // notification for the measurement process
             swal({
-                title: "Calculating measurement",
+                title: "시선 추적 정확도 측정",
                 text: "마우스를 움직이지 말고 가운데 점을 5초 동안 응시하세요.",
                 closeOnEsc: false,
                 allowOutsideClick: false,
@@ -180,10 +180,10 @@ $(document).ready(function () {
                         var past50 = webgazer.getStoredPoints(); // retrieve the stored points
                         var precision_measurement = calculatePrecision(past50);
                         swal({
-                            title: "Your accuracy measure is " + precision_measurement + "%",
+                            title: "당신의 시선 추적 정확도는 " + precision_measurement + "%",
                             allowOutsideClick: false,
                             buttons: {
-                                cancel: "Recalibrate",
+                                cancel: "재조정",
                                 confirm: true,
                             }
                         }).then(isConfirm => {
@@ -228,14 +228,13 @@ function ClearCalibration() {
     // Clear data from WebGazer
 
     $(".Calibration").css('background-color', 'red');
-    $(".Calibration").css('opacity', 0.2);
+    $(".Calibration").css('opacity', 0.4);
     $(".Calibration").prop('disabled', false);
 
     CalibrationPoints = {};
     PointCalibrate = 0;
 }
 
-// sleep function because java doesn't have one, sourced from http://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }

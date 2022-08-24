@@ -6,7 +6,7 @@ function createHeatmap() {
         radius: 50
     });
     var data = {
-        max: gazeData.length / 50,
+        max: gazeData.length / 36,
         value: 1,
         data: gazeData
     };
