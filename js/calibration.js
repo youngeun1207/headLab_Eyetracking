@@ -138,7 +138,7 @@ $(document).ready(function () {
         }
         CalibrationPoints[id]++; // increments values
 
-        if (CalibrationPoints[id] == 5) { //only turn to yellow after 5 clicks
+        if (CalibrationPoints[id] == 1) { //only turn to yellow after 5 clicks
             $(this).css('background-color', 'yellow');
             $(this).prop('disabled', true); //disables the button
             PointCalibrate++;
@@ -175,7 +175,7 @@ $(document).ready(function () {
 
                     store_points_variable(); // start storing the prediction points
 
-                    sleep(5000).then(() => {
+                    sleep(1000).then(() => {
                         stop_storing_points_variable(); // stop storing the prediction points
                         var past50 = webgazer.getStoredPoints(); // retrieve the stored points
                         var precision_measurement = calculatePrecision(past50);

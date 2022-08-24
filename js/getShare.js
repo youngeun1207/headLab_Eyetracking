@@ -39,7 +39,7 @@ function findReferenceTimestamp(){
 function showShareData(){
     swal({
             title: "시선 점유율",
-            text: "캔버스: " + String(getGazeShare('jsCanvas')) + "\n" + 
+            text: "캔버스: " + String(getGazeShare('jsCanvas')) + "\n" +
                   "컨트롤: " + String(getGazeShare('controls')) + "\n" +
                   "참고 이미지: " + String(getGazeShare('fit-picture')) + "\n",
             buttons: {

@@ -8,11 +8,17 @@ const clear = document.getElementById("jsClear");
 const saveBtn = document.getElementById("jsSave");
 const exitBtn = document.getElementById("jsExit");
 
-var reference = false;
+
+const dpr = window.devicePixelRatio;
+console.log(dpr);
 
 const INITIAL_COLOR = "2c2c2c";
-const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth;
-const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight;
+// const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth;
+// const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight;
+const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth * dpr;
+const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight * dpr;
+
+ctx.scale(dpr, dpr);
 
 canvas.width = CANVAS_WIDTH;
 canvas.height =CANVAS_HEIGHT;
@@ -24,7 +30,6 @@ ctx.lineWidth = 2.5;
 let painting = false;
 let filling = false;
 let earsing = false;
-
 
 
 function stopPainting(){
@@ -45,9 +50,8 @@ function startPainting(){
 }
 
 function onMouseMove(event){
-    console.log("move");
-    const x = event.offsetX;
-    const y = event.offsetY;
+    const x = event.offsetX * dpr;
+    const y = event.offsetY * dpr;
 
     if(earsing && painting){
         ctx.clearRect(x, y, ctx.lineWidth, ctx.lineWidth);
@@ -55,7 +59,6 @@ function onMouseMove(event){
         ctx.beginPath();   //경로 생성
         ctx.moveTo(x, y);   //선 시작 좌표
     }else{
-        // console.log("creating line in" , x ,y);
         ctx.lineTo(x, y);   //선 끝 좌표
         ctx.lineCap = 'round';
         ctx.stroke();   //선 그리기.
@@ -63,7 +66,6 @@ function onMouseMove(event){
 }
 
 function onTouchMove(event){
-    console.log("t_move");
     const rect = event.target.getBoundingClientRect();
     var x, y = 0;
 
@@ -74,10 +76,12 @@ function onTouchMove(event){
         x = event.touches[0].clientX - window.pageXOffset - rect.left;
         y = event.touches[0].clientY - window.pageYOffset - rect.top;
     }
+
+    x *= dpr;
+    y *= dpr;
     if(earsing && painting){
         ctx.clearRect(x, y, ctx.lineWidth, ctx.lineWidth);
     } else if(painting){
-        // console.log("creating line in" , x ,y);
         ctx.lineTo(x, y);   //선 끝 좌표
         ctx.lineCap = 'round';
         ctx.stroke();   //선 그리기.
@@ -114,13 +118,11 @@ function handleModeClick(){
 }
 
 function handleEraserClick(){
-    console.log("er");
     earsing = true;
     erase.style.background = "#c4c4c4";
 }
 
 function handleClearClick(){
-    console.log("cr");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -149,24 +151,6 @@ function handleExitClick(event){
     webgazer.end();
 }
 
-
-function loadFile(input) {
-    var file = input.files[0];
-    var newImage = document.createElement("img");
-    newImage.setAttribute("class", 'fit-picture');
-
-    newImage.src = URL.createObjectURL(file);
-
-    var container = document.getElementById('fit-picture');
-    if(container.childElementCount > 0){
-        container.replaceChild(newImage, container.lastElementChild);
-    }
-    else{
-        container.appendChild(newImage);
-    }
-
-    reference = true;
-};
 
 if(canvas){
     canvas.addEventListener("touchstart" , startPaintingMobile);
