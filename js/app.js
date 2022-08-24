@@ -41,8 +41,8 @@ function startPaintingMobile(event){
     const rect = event.target.getBoundingClientRect();
     
     ctx.beginPath();
-    var x = event.touches[0].clientX - window.pageXOffset - rect.left * dpr;
-    var y = event.touches[0].clientY - window.pageYOffset - rect.top *dpr;
+    var x = (event.touches[0].clientX - window.pageXOffset - rect.left) * dpr;
+    var y = (event.touches[0].clientY - window.pageYOffset - rect.top) * dpr;
     ctx.moveTo(x, y);
 }
 
