@@ -41,8 +41,9 @@ function startPaintingMobile(event){
     const rect = event.target.getBoundingClientRect();
     
     ctx.beginPath();
-    ctx.moveTo(event.touches[0].clientX - window.pageXOffset - rect.left,
-        event.touches[0].clientY - window.pageYOffset - rect.top);
+    var x = event.touches[0].clientX - window.pageXOffset - rect.left * dpr;
+    var y = event.touches[0].clientY - window.pageYOffset - rect.top *dpr;
+    ctx.moveTo(x, y);
 }
 
 function startPainting(){
