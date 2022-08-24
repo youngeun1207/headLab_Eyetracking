@@ -26,6 +26,7 @@ canvas.height =CANVAS_HEIGHT;
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
+ctx.lineJoin = 'round';
 
 let painting = false;
 let filling = false;
