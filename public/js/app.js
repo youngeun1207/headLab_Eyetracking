@@ -161,9 +161,9 @@ function handleSaveClick(){
 
 function handleExitClick(event){
     writeData();
-    // showShareData();
-    // createHeatmap();
-    // createSequence();
+    showShareData();
+    createHeatmap();
+    createSequence();
     webgazer.end();
 }
 

@@ -1,13 +1,12 @@
 var gazeData = [];
 var referenceTimestamp = null;
 
-// window.onload = async function() {
-
 async function startWebgaze() {
   //start the webgazer tracker
-  await webgazer.setRegression('ridge') /* currently must set regression and tracker */
+  await webgazer
+  //     .setRegression('ridge') /* currently must set regression and tracker */
       // .setTracker('clmtrackr')
-      .setGazeListener(function(data, clock) { 
+      .setGazeListener(function(data) { 
         if(calibrationEnd){
           if(data != null){
             gazeData.push(
@@ -25,7 +24,7 @@ async function startWebgaze() {
           // console.log(data); /* data is an object containing an x and y key which are the x and y prediction coordinates (no bounds limiting) */
           // console.log(clock); /* elapsed time in milliseconds since webgazer.begin() was called */
       })
-      .saveDataAcrossSessions(true)
+      // .saveDataAcrossSessions(true)
       .begin();
       webgazer.showVideoPreview(true) /* shows all video previews */
           .showPredictionPoints(true) /* shows a square every 100 milliseconds where current prediction is */
@@ -42,9 +41,6 @@ async function startWebgaze() {
   setup();
 
 };
-
-// Set to true if you want to save the data even if you reload the page.
-window.saveDataAcrossSessions = true;
 
 
 window.onbeforeunload = function() {

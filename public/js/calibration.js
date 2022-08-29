@@ -2,7 +2,12 @@ var PointCalibrate = 0;
 var CalibrationPoints = {};
 var calibrationEnd = false;
 
-var userID;
+var userID = {
+    division: null,
+    class: null,
+    id: null
+};
+
 /*
  * Clear the canvas and the calibration button.
  */
@@ -12,13 +17,113 @@ function ClearCanvas() {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
+async function inputDivision() {
+    const { value: division } = await swal.fire({
+        title: '소속을 선택해주세요',
+        input: 'select',
+        inputOptions: {
+            test: 'Test',
+            disability: '장애',
+            genius: '영재'
+        },
+        inputPlaceholder: '소속 선택',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                if (value !== null) {
+                    resolve()
+                } else {
+                    resolve('소속 선택은 필수입니다.')
+                }
+            })
+        }
+    }).then()
+
+    if(division){
+        userID.division = division;
+    }
+}
+
+async function inputClass() {
+    const { value: color } = await swal.fire({
+        title: '반을 선택해주세요',
+        input: 'select',
+        inputOptions: {
+            red: '빨강',
+            orange: '주황',
+            yellow: '노랑',
+            yellowGreen: '연두',
+            green: '초록',
+            blue: '파랑',
+            sky: '하늘',
+            pink: '분홍',
+            purple: '보라',
+            white: '하양'
+        },
+        inputPlaceholder: '반 선택',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        inputValidator: (value) => {
+            console.log('test');
+            return new Promise((resolve) => {
+                if (value !== null) {
+                    resolve()
+                } else {
+                    resolve('반 선택은 필수입니다.')
+                }
+            })
+        }
+    }).then()
+        
+    if (color) {
+        userID.class = color;
+     }
+}
+
+async function inputID() {
+    const { value: id } = await swal.fire({
+        title: '아이디를 입력해주세요',
+        input: 'text',
+        inputPlaceholder: 'ID 입력',
+        inputAttributes: {
+            maxlength: 10,
+            autocapitalize: 'off',
+            autocorrect: 'off'
+        },
+        allowOutsideClick: false,
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                if (value !== '') {
+                    resolve()
+                } else {
+                    resolve('아이디 입력은 필수입니다.')
+                }
+            })
+        }
+    })
+    if (id) {
+        userID.id = id;
+        startWebgaze();
+        Restart();
+    }
+}
+
+async function inputUserInfo() {
+    await inputDivision();
+    await inputClass();
+    await inputID();
+    console.log(userID);
+}
+
 /*
  * Show the instruction of using calibration at the start up screen.
  */
 function PopUpInstruction() {
     ClearCanvas();
-    swal({
+    swal.fire({
         title: "조정",
+        focusConfirm: false,
         text: "화면의 9개의 점이 노란색이 될 때까지 각 점을 5번 클릭해주세요.",
         buttons: {
             cancel: false,
@@ -109,6 +214,32 @@ function calculateAverage(precisionPercentages) {
     return precision;
 }
 
+/**
+ * Show the Calibration Points
+ */
+function ShowCalibrationPoint() {
+    $(".Calibration").show();
+    $("#Pt5").hide(); // initially hides the middle button
+}
+
+/**
+* This function clears the calibration buttons memory
+*/
+function ClearCalibration() {
+    // Clear data from WebGazer
+
+    $(".Calibration").css('background-color', 'red');
+    $(".Calibration").css('opacity', 0.4);
+    $(".Calibration").prop('disabled', false);
+
+    CalibrationPoints = {};
+    PointCalibrate = 0;
+}
+
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 /*
 * Load this function when the index page starts.
 * This function listens for button clicks on the html page
@@ -116,7 +247,7 @@ function calculateAverage(precisionPercentages) {
 */
 $(document).ready(function () {
     ClearCanvas();
-    inputID();
+    inputUserInfo();
     $(".Calibration").click(function () { // click event on the calibration buttons
 
         var id = $(this).attr('id');
@@ -151,10 +282,9 @@ $(document).ready(function () {
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
             // notification for the measurement process
-            swal({
+            swal.fire({
                 title: "시선 추적 정확도 측정",
                 text: "마우스를 움직이지 말고 가운데 점을 5초 동안 응시하세요.",
-                closeOnEsc: false,
                 allowOutsideClick: false,
                 closeModal: true
             }).then(isConfirm => {
@@ -167,15 +297,15 @@ $(document).ready(function () {
                         stop_storing_points_variable(); // stop storing the prediction points
                         var past50 = webgazer.getStoredPoints(); // retrieve the stored points
                         var precision_measurement = calculatePrecision(past50);
-                        swal({
+                        swal.fire({
                             title: "당신의 시선 추적 정확도는 " + precision_measurement + "%",
+                            focusConfirm: false,
                             allowOutsideClick: false,
-                            buttons: {
-                                cancel: "재조정",
-                                confirm: true,
-                            }
-                        }).then(isConfirm => {
-                            if (isConfirm) {
+                            showDenyButton: true,
+                            confirmButtonText: 'OK',
+                            denyButtonText: `재조정`
+                        }).then((result) => {
+                            if (result.isConfirmed) {
                                 //clear the calibration & hide the last middle button
                                 ClearCanvas();
                                 // canvas.remove();
@@ -186,7 +316,7 @@ $(document).ready(function () {
 
                                 calibrationEnd = true;
 
-                            } else {
+                            } else if (result.isDenied) {
                                 //use restart function to restart the calibration
                                 webgazer.clearData();
                                 ClearCalibration();
@@ -200,29 +330,3 @@ $(document).ready(function () {
         }
     });
 });
-
-/**
- * Show the Calibration Points
- */
-function ShowCalibrationPoint() {
-    $(".Calibration").show();
-    $("#Pt5").hide(); // initially hides the middle button
-}
-
-/**
-* This function clears the calibration buttons memory
-*/
-function ClearCalibration() {
-    // Clear data from WebGazer
-
-    $(".Calibration").css('background-color', 'red');
-    $(".Calibration").css('opacity', 0.4);
-    $(".Calibration").prop('disabled', false);
-
-    CalibrationPoints = {};
-    PointCalibrate = 0;
-}
-
-function sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-}

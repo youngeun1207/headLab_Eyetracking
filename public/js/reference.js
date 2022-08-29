@@ -14,6 +14,5 @@ function loadFile(input) {
     else{
         container.appendChild(newImage);
     }
-
     reference = true;
 };

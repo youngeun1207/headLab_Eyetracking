@@ -254,30 +254,34 @@ li {
     z-index: -1;
 }
 
-.swal-button--confirm{
-    font-family: 'Comfortaa';
-	background-color: rgba(255, 219, 85);
-	font-size: 12px;
-    color: #123373;
+.swal2-popup {
+    font-family: 'NanumSquareRound',sans-serif !important;
+    width: 35em !important;
 }
-.swal-button--cancel{
-    font-family: 'NanumSquareRound',sans-serif;
-	background-color: #123373;
-	font-size: 12px;
-    color: white;
+
+.swal2-styled.swal2-confirm {
+    font-family: 'NanumSquareRound',sans-serif !important;
+    background-color: rgb(255, 219, 85) !important;
+    border: none;
+    color: #123373 !important;
 }
-.swal-modal {
-    font-family: 'NanumSquareRound',sans-serif;
+.swal2-styled.swal2-deny {
+    font-family: 'NanumSquareRound',sans-serif !important;
+    background-color: #123373 !important;
+    color: rgb(255, 219, 85) !important;
 }
-.swal-title {
-    font-family: 'NanumSquareRound',sans-serif;
-    font-weight: 700 !important;
+
+.swal2-input {
+    margin-top: 2px !important;
 }
-.swal-button:focus {
-    box-shadow:none;
+
+.swal2-title {
+    font-family: 'NanumSquareRound',sans-serif !important;
+    font-weight: bold !important;
+    font-size: 25px !important;
+    margin-bottom: 10px !important;
 }
-.swal-button:not([disabled]):hover {
-    background:rgb(255, 200, 0);
-    -webkit-transition: all 0.3s ease-in-out; 
-    transition: all 0.3s ease-in-out; 
-  }
+
+.swal2-actions {
+    margin-top: 5px !important;
+}
