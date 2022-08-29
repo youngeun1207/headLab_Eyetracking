@@ -169,7 +169,7 @@ function handleExitClick(event){
 
 function writeData() {
     const db = getDatabase(app);
-    update(ref(db), {
+    db.collection("gaze_data").add({
         id: userID,
         gaze_data: gazeData,
         reference_index: referenceTimestamp
