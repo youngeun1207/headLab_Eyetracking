@@ -12,18 +12,19 @@
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script> -->
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="js/firebase.js"></script>
 </head>
 
 <body id="body">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.29/dist/sweetalert2.all.min.js"></script>
-
-    <script src="js/firebase.js"></script>
 
     <script src="js/calibration.js"></script>
     <script src="js/eyetracking.js"></script>
@@ -90,29 +91,5 @@
     <script src="js/app.js" type="module"></script>
 </body>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyBR0yFjUp3Rp6XrkVW7fuaYCjNU7t1xRB0",
-      authDomain: "iboda-eyetracking.firebaseapp.com",
-      databaseURL: "https://iboda-eyetracking-default-rtdb.firebaseio.com",
-      projectId: "iboda-eyetracking",
-      storageBucket: "iboda-eyetracking.appspot.com",
-      messagingSenderId: "350140103230",
-      appId: "1:350140103230:web:73c058e0544c0ad0072f6f",
-      measurementId: "G-5S6M0YT4GH"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
 
 </html>

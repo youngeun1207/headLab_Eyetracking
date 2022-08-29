@@ -14,9 +14,12 @@ function getGazeShare(targetId){
     var cnt = 0;
     var i = 0;
     if(targetId == 'fit-picture'){
-        i = findReferenceTimestamp();
+        i = referenceTimestamp;
     }
     for(; i < gazeData.length; i++){
+        if(i < 0){
+            break;
+        }
         var x = gazeData[i].x;
         var y = gazeData[i].y;
         if(x > offset.l  && x < offset.r && y > offset.t && y < offset.b){
@@ -26,25 +29,12 @@ function getGazeShare(targetId){
     return cnt / gazeData.length * 100;
 }
 
-function findReferenceTimestamp(){
-    // 참고 이미지 로딩 후 부터 연산..
-    var startIndex = gazeData.length;
-    if(referenceTimestamp != null){
-        startIndex = timeStamp.findIndex((e) => e >= referenceTimestamp);
-        console.log(startIndex);
-    }
-    return startIndex;
-}
-
 function showShareData(){
-    swal({
+    swal.fire({
             title: "시선 점유율",
             text: "캔버스: " + String(getGazeShare('jsCanvas')) + "\n" +
                   "컨트롤: " + String(getGazeShare('controls')) + "\n" +
-                  "참고 이미지: " + String(getGazeShare('fit-picture')) + "\n",
-            buttons: {
-                confirm: "닫기"
-            }
+                  "참고 이미지: " + String(getGazeShare('fit-picture')) + "\n"
         }).then(isConfirm => {}
     );
 }

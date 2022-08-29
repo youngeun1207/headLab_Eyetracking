@@ -1,4 +1,5 @@
-import { getDatabase, ref, update } from 'https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js';
+import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js';
+import 'https://www.gstatic.com/firebasejs/8.8.1/firebase-storage.js';
 
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
@@ -16,13 +17,15 @@ const INITIAL_COLOR = "2c2c2c";
 const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth * dpr;
 const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight * dpr;
 
+let today = new Date();
+
 ctx.scale(dpr, dpr);
 
 canvas.width = CANVAS_WIDTH;
-canvas.height =CANVAS_HEIGHT;
+canvas.height = CANVAS_HEIGHT;
 
 ctx.fillStyle = '#ffffff';
-ctx.fillRect(0, 0, CANVAS_WIDTH,CANVAS_HEIGHT);
+ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
@@ -36,48 +39,48 @@ let painting = false;
 let filling = false;
 let erasing = false;
 
-function stopPainting(){
+function stopPainting() {
     painting = false;
 }
 
-function startPaintingMobile(event){
+function startPaintingMobile(event) {
     painting = true;
     const rect = event.target.getBoundingClientRect();
-    
+
     ctx.beginPath();
     var x = (event.touches[0].clientX - window.pageXOffset - rect.left) * dpr;
     var y = (event.touches[0].clientY - window.pageYOffset - rect.top) * dpr;
     ctx.moveTo(x, y);
 }
 
-function startPainting(){
+function startPainting() {
     painting = true;
 }
 
-function onMouseMove(event){
+function onMouseMove(event) {
     const x = event.offsetX * dpr;
     const y = event.offsetY * dpr;
 
-    if(erasing && painting){
+    if (erasing && painting) {
         currentColor = ctx.fillStyle;
         ctx.strokeStyle = "#ffffff";
         ctx.fillStyle = "#ffffff";
     }
-    if(!painting){
+    if (!painting) {
         ctx.beginPath();   //경로 생성
         ctx.moveTo(x, y);   //선 시작 좌표
-    }else{
+    } else {
         ctx.lineTo(x, y);   //선 끝 좌표
         ctx.lineCap = 'round';
         ctx.stroke();   //선 그리기.
     }
 }
 
-function onTouchMove(event){
+function onTouchMove(event) {
     const rect = event.target.getBoundingClientRect();
     var x, y = 0;
 
-    if(window.innerHeight < window.innerWidth){
+    if (window.innerHeight < window.innerWidth) {
         x = event.touches[0].clientX - window.pageXOffset - rect.left;
         y = event.touches[0].clientY - window.pageYOffset - rect.top;
     } else {
@@ -87,19 +90,19 @@ function onTouchMove(event){
 
     x *= dpr;
     y *= dpr;
-    if(erasing && painting){
+    if (erasing && painting) {
         currentColor = ctx.fillStyle;
         ctx.strokeStyle = "#ffffff";
         ctx.fillStyle = "#ffffff";
     }
-    if(painting){
+    if (painting) {
         ctx.lineTo(x, y);   //선 끝 좌표
         ctx.lineCap = 'round';
         ctx.stroke();   //선 그리기.
     }
 }
 
-function handleColorClick(event){
+function handleColorClick(event) {
     const color = event.target.style.backgroundColor;
     Array.from(colors).forEach(color => color.style.border = "none");
     event.target.style.border = "2px solid #f2f2f2";
@@ -108,114 +111,154 @@ function handleColorClick(event){
     ctx.fillStyle = color;
 }
 
-function handleRangeChange(event){
+function handleRangeChange(event) {
     const size = event.target.value;
     ctx.lineWidth = size;
 }
 
-function handleModeClick(){
-    if(erasing === true){
+function handleModeClick() {
+    if (erasing === true) {
         erasing = false;
         ctx.strokeStyle = currentColor;
         ctx.fillStyle = currentColor;
         erase.style.background = "rgba(255, 219, 85)";
     }
-    else if(filling === true) {
-        filling=false;
-        mode.innerText="붓";
-    }else {
+    else if (filling === true) {
+        filling = false;
+        mode.innerText = "붓";
+    } else {
         filling = true;
-        mode.innerText="채우기";
+        mode.innerText = "채우기";
     }
 }
 
-function handleEraserClick(){
+function handleEraserClick() {
     erasing = true;
     erase.style.background = "rgb(255, 200, 0)";
 }
 
-function handleClearClick(){
+function handleClearClick() {
     currentColor = ctx.fillStyle;
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, CANVAS_WIDTH,CANVAS_HEIGHT);
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.fillStyle = currentColor;
 }
 
-function handleCanvasClick(){
-    if(filling){
-        ctx.fillRect(0, 0, CANVAS_WIDTH,CANVAS_HEIGHT);
+function handleCanvasClick() {
+    if (filling) {
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
 }
 
-function handleCM(event){
+function handleCM(event) {
     event.preventDefault();
 }
 
-function handleSaveClick(){
+function handleSaveClick() {
     const image = canvas.toDataURL();
     const link = document.createElement("a");
-    link.href=image;
-    link.download ="PaintJS";
+    link.href = image;
+    link.download = "PaintJS";
     link.click();
 }
 
-function handleExitClick(event){
+function handleExitClick(event) {
     writeData();
-    showShareData();
-    createHeatmap();
-    createSequence();
+    // showShareData();
+    // createHeatmap();
+    // createSequence();
     webgazer.end();
 }
 
+function saveAs(uri, filename) {     
+    var link = document.createElement('a'); 
+    if (typeof link.download === 'string') { 
+        link.href = uri; 
+        link.download = filename; 
+        document.body.appendChild(link); 
+        link.click();
+        document.body.removeChild(link); 
+    } else { 
+        window.open(uri); 
+    }
+}
+function saveScreenShot(storageRef) {
+    html2canvas(document.querySelector("#body")).then(canvas => {
+        canvas.toBlob(function(blob) {
+            var file_path = storageRef.child('screenshot/' + userID.id + today.getHours() + today.getMinutes());
+            file_path.put(blob);
+        });
+    });
+}
+
+function saveDrawing(storageRef) {
+    canvas.toBlob(function(blob) {
+        var file_path = storageRef.child('drawing/' + userID.id + today.getHours() + today.getMinutes());
+        file_path.put(blob);
+    });
+}
+
+async function saveImageDB() {
+    var storage = firebase.app().storage("gs://iboda-eyetracking.appspot.com");
+    var storageRef = storage.ref();
+
+    saveDrawing(storageRef);
+    saveScreenShot(storageRef);
+}
+
 function writeData() {
+    // screenShot();
     const db = getDatabase(app);
-    db.collection("gaze_data").add({
+    db.ref('data').push({
         id: userID,
         gaze_data: gazeData,
-        reference_index: referenceTimestamp
+        reference_index: referenceTimestamp,
+        drawing: 'drawing/' + userID.id + today.getHours() + today.getMinutes(),
+        screenshot: 'screenshot/' + userID.id + today.getHours() + today.getMinutes()
     });
-  }
-
-if(canvas){
-    canvas.addEventListener("touchstart" , startPaintingMobile);
-    canvas.addEventListener("touchend" , stopPainting);
-    canvas.addEventListener("touchmove" , onTouchMove);
-    canvas.addEventListener("tap",handleCanvasClick);
-
-    canvas.addEventListener("mousedown" , startPainting);
-    canvas.addEventListener("mouseup" , stopPainting);
-    canvas.addEventListener("mousemove" , onMouseMove);
-
-    canvas.addEventListener("mouseout" , stopPainting);
-    canvas.addEventListener("mouseleave" , stopPainting);
-    
-    canvas.addEventListener("click",handleCanvasClick);
-
-    canvas.addEventListener("contextmenu",handleCM)
+    saveImageDB();
 }
 
-Array.from(colors).forEach(color => color.addEventListener("click",handleColorClick));
+if (canvas) {
+    canvas.addEventListener("touchstart", startPaintingMobile);
+    canvas.addEventListener("touchend", stopPainting);
+    canvas.addEventListener("touchmove", onTouchMove);
+    canvas.addEventListener("tap", handleCanvasClick);
 
-if(range){
-    range.addEventListener("input",handleRangeChange);
+    canvas.addEventListener("mousedown", startPainting);
+    canvas.addEventListener("mouseup", stopPainting);
+    canvas.addEventListener("mousemove", onMouseMove);
+
+    canvas.addEventListener("mouseout", stopPainting);
+    canvas.addEventListener("mouseleave", stopPainting);
+
+    canvas.addEventListener("click", handleCanvasClick);
+
+    canvas.addEventListener("contextmenu", handleCM)
 }
 
-if(mode){
-    mode.addEventListener("click",handleModeClick);
+Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
+
+if (range) {
+    range.addEventListener("input", handleRangeChange);
 }
 
-if(saveBtn){
-    saveBtn.addEventListener("click",handleSaveClick);
+if (mode) {
+    mode.addEventListener("click", handleModeClick);
 }
 
-if(erase){
-    erase.addEventListener("click",handleEraserClick);
+if (saveBtn) {
+    saveBtn.addEventListener("click", handleSaveClick);
 }
 
-if(clear){
-    clear.addEventListener("click",handleClearClick);
+if (erase) {
+    erase.addEventListener("click", handleEraserClick);
 }
 
-if(exitBtn){
-    exitBtn.addEventListener("click",handleExitClick);
-  }
+if (clear) {
+    clear.addEventListener("click", handleClearClick);
+}
+
+if (exitBtn) {
+    exitBtn.addEventListener("click", handleExitClick);
+}

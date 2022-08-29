@@ -1,5 +1,5 @@
 var gazeData = [];
-var referenceTimestamp = null;
+var referenceTimestamp = -1;
 
 async function startWebgaze() {
   //start the webgazer tracker

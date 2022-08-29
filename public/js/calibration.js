@@ -2,6 +2,8 @@ var PointCalibrate = 0;
 var CalibrationPoints = {};
 var calibrationEnd = false;
 
+const REPEAT = 1;
+
 var userID = {
     division: null,
     class: null,
@@ -257,11 +259,11 @@ $(document).ready(function () {
         }
         CalibrationPoints[id]++; // increments values
 
-        if (CalibrationPoints[id] == 5) { //only turn to yellow after 5 clicks
+        if (CalibrationPoints[id] == REPEAT) { //only turn to yellow after 5 clicks
             $(this).css('background-color', 'rgb(255, 219, 85)');
             $(this).prop('disabled', true); //disables the button
             PointCalibrate++;
-        } else if (CalibrationPoints[id] < 5) {
+        } else if (CalibrationPoints[id] < REPEAT) {
             //Gradually increase the opacity of calibration points when click to give some indication to user.
             var opacity = 0.15 * CalibrationPoints[id] + 0.4;
             $(this).css('opacity', opacity);
@@ -293,7 +295,7 @@ $(document).ready(function () {
 
                     store_points_variable(); // start storing the prediction points
 
-                    sleep(5000).then(() => {
+                    sleep(REPEAT*1000).then(() => {
                         stop_storing_points_variable(); // stop storing the prediction points
                         var past50 = webgazer.getStoredPoints(); // retrieve the stored points
                         var precision_measurement = calculatePrecision(past50);
