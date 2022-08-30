@@ -33,7 +33,7 @@ async function inputDivision() {
         allowOutsideClick: false,
         inputValidator: (value) => {
             return new Promise((resolve) => {
-                if (value !== null) {
+                if (value != '') {
                     resolve()
                 } else {
                     resolve('소속 선택은 필수입니다.')
@@ -67,9 +67,8 @@ async function inputClass() {
         showCancelButton: false,
         allowOutsideClick: false,
         inputValidator: (value) => {
-            console.log('test');
             return new Promise((resolve) => {
-                if (value !== null) {
+                if (value != '') {
                     resolve()
                 } else {
                     resolve('반 선택은 필수입니다.')
