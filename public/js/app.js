@@ -32,7 +32,6 @@ ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 5;
 ctx.lineJoin = 'round';
 
-
 var currentColor;
 
 let painting = false;
@@ -75,6 +74,8 @@ function onMouseMove(event) {
         ctx.stroke();   //선 그리기.
     }
 }
+
+
 
 function onTouchMove(event) {
     const rect = event.target.getBoundingClientRect();
@@ -162,26 +163,36 @@ function handleSaveClick() {
     link.click();
 }
 
+function getOffsets(id){
+    var target = document.getElementById(id);
+
+    var left = target.offsetLeft;
+    var top = target.offsetTop;
+
+    const offset = {
+        l: left,
+        r: left + target.offsetWidth,
+        t: top,
+        b: top + target.offsetHeight
+
+    }
+    return offset;
+}
+
+function saveOffsets(){
+    var offset = {
+        controler: getOffsets('controls'),
+        canvas: getOffsets('jsCanvas'),
+        reference: getOffsets('fit-picture')
+    }
+    return offset;
+}
+
 function handleExitClick(event) {
     writeData();
-    // showShareData();
-    // createHeatmap();
-    // createSequence();
     webgazer.end();
 }
 
-function saveAs(uri, filename) {     
-    var link = document.createElement('a'); 
-    if (typeof link.download === 'string') { 
-        link.href = uri; 
-        link.download = filename; 
-        document.body.appendChild(link); 
-        link.click();
-        document.body.removeChild(link); 
-    } else { 
-        window.open(uri); 
-    }
-}
 function saveScreenShot(storageRef) {
     html2canvas(document.querySelector("#body")).then(canvas => {
         canvas.toBlob(function(blob) {
@@ -206,15 +217,24 @@ async function saveImageDB() {
     saveScreenShot(storageRef);
 }
 
+function getWindowsize(){
+    const windowSize = {
+        x: window.innerWidth,
+        y: window.innerHeight
+    }
+    return windowSize
+}
+
 function writeData() {
-    // screenShot();
     const db = getDatabase(app);
     db.ref('data').push({
         id: userID,
         gaze_data: gazeData,
         reference_index: referenceTimestamp,
         drawing: 'drawing/' + userID.id + today.getHours() + today.getMinutes(),
-        screenshot: 'screenshot/' + userID.id + today.getHours() + today.getMinutes()
+        screenshot: 'screenshot/' + userID.id + today.getHours() + today.getMinutes(),
+        offsets: saveOffsets(),
+        window_size: getWindowsize()
     });
     saveImageDB();
 }
@@ -260,5 +280,5 @@ if (clear) {
 }
 
 if (exitBtn) {
-    exitBtn.addEventListener("click", handleExitClick);
+    exitBtn.addEventListener("click", handleExitClick, {once : true});
 }

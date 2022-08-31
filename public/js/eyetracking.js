@@ -4,7 +4,7 @@ var referenceTimestamp = -1;
 async function startWebgaze() {
   //start the webgazer tracker
   await webgazer
-  //     .setRegression('ridge') /* currently must set regression and tracker */
+      // .setRegression('ridge') /* currently must set regression and tracker */
       // .setTracker('clmtrackr')
       .setGazeListener(function(data) { 
         if(calibrationEnd){
