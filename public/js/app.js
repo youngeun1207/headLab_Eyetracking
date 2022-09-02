@@ -239,6 +239,8 @@ function writeData() {
     saveImageDB();
 }
 
+
+
 if (canvas) {
     canvas.addEventListener("touchstart", startPaintingMobile);
     canvas.addEventListener("touchend", stopPainting);
