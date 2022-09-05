@@ -1,3 +1,6 @@
+
+export var reference = false;
+
 function loadFile(input) {
     var file = input.files[0];
     var newImage = document.createElement("img");
@@ -14,3 +17,7 @@ function loadFile(input) {
     }
     reference = true;
 };
+
+export function setReference(value){
+    reference = value;
+}

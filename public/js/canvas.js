@@ -17,8 +17,6 @@ export const clear = document.getElementById("jsClear");
 export const saveBtn = document.getElementById("jsSave");
 export const exitBtn = document.getElementById("jsExit");
 
-export var reference = false;
-
 export var gazeData = [];
 export var referenceTimestamp = -1;
 

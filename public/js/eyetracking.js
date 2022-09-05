@@ -1,5 +1,6 @@
 import { calibrationEnd, ClearCalibration, PopUpInstruction } from "./calibration.js";
-import { gazeData, reference, referenceTimestamp } from "./canvas.js";
+import { gazeData, referenceTimestamp } from "./canvas.js";
+import { reference, setReference } from "./reference.js";
 
 var gaze_data;
 
@@ -18,7 +19,7 @@ export async function startWebgaze() {
           }
           if(reference){
             referenceTimestamp = gazeData.length;
-            reference = false;
+            setReference(false);
           }
         }
           // console.log(data); /* data is an object containing an x and y key which are the x and y prediction coordinates (no bounds limiting) */
