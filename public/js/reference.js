@@ -1,5 +1,3 @@
-var reference = false;
-
 function loadFile(input) {
     var file = input.files[0];
     var newImage = document.createElement("img");

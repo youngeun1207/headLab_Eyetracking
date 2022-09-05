@@ -1,11 +1,11 @@
-var gazeData = [];
-var referenceTimestamp = -1;
+import { calibrationEnd, ClearCalibration, PopUpInstruction } from "./calibration.js";
+import { gazeData, reference, referenceTimestamp } from "./canvas.js";
 
-async function startWebgaze() {
+var gaze_data;
+
+export async function startWebgaze() {
   //start the webgazer tracker
   await webgazer
-      // .setRegression('ridge') /* currently must set regression and tracker */
-      // .setTracker('clmtrackr')
       .setGazeListener(function(data) { 
         if(calibrationEnd){
           if(data != null){
@@ -50,7 +50,7 @@ window.onbeforeunload = function() {
 /**
 * Restart the calibration process by clearing the local storage and reseting the calibration point
 */
-function Restart(){
+export function Restart(){
   webgazer.clearData();
   ClearCalibration();
   PopUpInstruction();

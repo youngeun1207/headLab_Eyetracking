@@ -174,8 +174,10 @@ input[type=range]:focus {
 
 }
 
-  /*  */
-
+.stop-watch {
+    color: white;
+    font-size: 18px;
+}
 
   /* Calibration button styling */
 .Calibration{

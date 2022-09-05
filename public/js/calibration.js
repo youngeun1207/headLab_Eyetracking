@@ -1,25 +1,20 @@
-var PointCalibrate = 0;
-var CalibrationPoints = {};
-var calibrationEnd = false;
+import { userID } from "./canvas.js";
+import { Restart, startWebgaze } from "./eyetracking.js";
 
-const REPEAT = 1;
+export var CalibrationPoints = {};
+export var calibrationEnd = false;
 
-var userID = {
-    division: null,
-    class: null,
-    id: null
-};
-
-/*
- * Clear the canvas and the calibration button.
- */
-function ClearCanvas() {
+export function ClearCanvas() {
     $(".Calibration").hide();
     var canvas = document.getElementById("plotting_canvas");
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
-async function inputDivision() {
+export function setCalibrationEnd(value){
+    calibrationEnd = value;
+}
+
+export async function inputDivision() {
     const { value: division } = await swal.fire({
         title: '소속을 선택해주세요',
         input: 'select',
@@ -47,7 +42,7 @@ async function inputDivision() {
     }
 }
 
-async function inputClass() {
+export async function inputClass() {
     const { value: color } = await swal.fire({
         title: '반을 선택해주세요',
         input: 'select',
@@ -82,7 +77,7 @@ async function inputClass() {
      }
 }
 
-async function inputID() {
+export async function inputID() {
     const { value: id } = await swal.fire({
         title: '아이디를 입력해주세요',
         input: 'text',
@@ -110,7 +105,7 @@ async function inputID() {
     }
 }
 
-async function inputUserInfo() {
+export async function inputUserInfo() {
     await inputDivision();
     await inputClass();
     await inputID();
@@ -120,7 +115,7 @@ async function inputUserInfo() {
 /*
  * Show the instruction of using calibration at the start up screen.
  */
-function PopUpInstruction() {
+export function PopUpInstruction() {
     ClearCanvas();
     swal.fire({
         title: "조정",
@@ -140,7 +135,7 @@ function PopUpInstruction() {
  * Sets store_points to true, so all the occuring prediction
  * points are stored
  */
-function store_points_variable() {
+export function store_points_variable() {
     webgazer.params.storingPoints = true;
 }
 
@@ -148,7 +143,7 @@ function store_points_variable() {
 * Sets store_points to false, so prediction points aren't
 * stored any more
 */
-function stop_storing_points_variable() {
+export function stop_storing_points_variable() {
     webgazer.params.storingPoints = false;
 }
 
@@ -156,7 +151,7 @@ function stop_storing_points_variable() {
  * This function calculates a measurement for how precise 
  * the eye tracker currently is which is displayed to the user
  */
-function calculatePrecision(past50Array) {
+export function calculatePrecision(past50Array) {
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
 
@@ -180,8 +175,8 @@ function calculatePrecision(past50Array) {
  * Calculate percentage accuracy for each prediction based on distance of
  * the prediction point from the centre point (uses the window height as lower threshold 0%)
  */
-function calculatePrecisionPercentages(precisionPercentages, windowHeight, x50, y50, staringPointX, staringPointY) {
-    for (x = 0; x < 50; x++) {
+export function calculatePrecisionPercentages(precisionPercentages, windowHeight, x50, y50, staringPointX, staringPointY) {
+    for (var x = 0; x < 50; x++) {
         // Calculate distance between each prediction and staring point
         var xDiff = staringPointX - x50[x];
         var yDiff = staringPointY - y50[x];
@@ -206,9 +201,9 @@ function calculatePrecisionPercentages(precisionPercentages, windowHeight, x50, 
 /*
  * Calculates the average of all precision percentages calculated
  */
-function calculateAverage(precisionPercentages) {
+export function calculateAverage(precisionPercentages) {
     var precision = 0;
-    for (x = 0; x < 50; x++) {
+    for (var x = 0; x < 50; x++) {
         precision += precisionPercentages[x];
     }
     precision = precision / 50;
@@ -218,7 +213,7 @@ function calculateAverage(precisionPercentages) {
 /**
  * Show the Calibration Points
  */
-function ShowCalibrationPoint() {
+export function ShowCalibrationPoint() {
     $(".Calibration").show();
     $("#Pt5").hide(); // initially hides the middle button
 }
@@ -226,108 +221,15 @@ function ShowCalibrationPoint() {
 /**
 * This function clears the calibration buttons memory
 */
-function ClearCalibration() {
+export function ClearCalibration() {
     // Clear data from WebGazer
-
     $(".Calibration").css('background-color', 'red');
     $(".Calibration").css('opacity', 0.4);
     $(".Calibration").prop('disabled', false);
 
     CalibrationPoints = {};
-    PointCalibrate = 0;
 }
 
-function sleep(time) {
+export function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
-
-/*
-* Load this function when the index page starts.
-* This function listens for button clicks on the html page
-* checks that all buttons have been clicked 5 times each, and then goes on to measuring the precision
-*/
-$(document).ready(function () {
-    ClearCanvas();
-    inputUserInfo();
-    $(".Calibration").click(function () { // click event on the calibration buttons
-
-        var id = $(this).attr('id');
-
-        if (!CalibrationPoints[id]) { // initialises if not done
-            CalibrationPoints[id] = 0;
-        }
-        CalibrationPoints[id]++; // increments values
-
-        if (CalibrationPoints[id] == REPEAT) { //only turn to yellow after 5 clicks
-            $(this).css('background-color', 'rgb(255, 219, 85)');
-            $(this).prop('disabled', true); //disables the button
-            PointCalibrate++;
-        } else if (CalibrationPoints[id] < REPEAT) {
-            //Gradually increase the opacity of calibration points when click to give some indication to user.
-            var opacity = 0.15 * CalibrationPoints[id] + 0.4;
-            $(this).css('opacity', opacity);
-        }
-
-        //Show the middle calibration point after all other points have been clicked.
-        if (PointCalibrate == 8) {
-            $("#Pt5").show();
-        }
-
-        if (PointCalibrate >= 9) { // last point is calibrated
-            //using jquery to grab every element in Calibration class and hide them except the middle point.
-            $(".Calibration").hide();
-            $("#Pt5").show();
-
-            // clears the canvas
-            var canvas = document.getElementById("plotting_canvas");
-            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-
-            // notification for the measurement process
-            swal.fire({
-                title: "시선 추적 정확도 측정",
-                text: "마우스를 움직이지 말고 가운데 점을 5초 동안 응시하세요.",
-                allowOutsideClick: false,
-                closeModal: true
-            }).then(isConfirm => {
-                // makes the variables true for 5 seconds & plots the points
-                $(document).ready(function () {
-
-                    store_points_variable(); // start storing the prediction points
-
-                    sleep(REPEAT*1000).then(() => {
-                        stop_storing_points_variable(); // stop storing the prediction points
-                        var past50 = webgazer.getStoredPoints(); // retrieve the stored points
-                        var precision_measurement = calculatePrecision(past50);
-                        swal.fire({
-                            title: "당신의 시선 추적 정확도는 " + precision_measurement + "%",
-                            focusConfirm: false,
-                            allowOutsideClick: false,
-                            showDenyButton: true,
-                            confirmButtonText: 'OK',
-                            denyButtonText: `재조정`
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                //clear the calibration & hide the last middle button
-                                ClearCanvas();
-                                // canvas.remove();
-                                canvas.style.height = "0px";
-                                webgazer.showVideoPreview(false);
-                                document.getElementById("webgazerVideoContainer").style.zIndex = "-1";
-                                webgazer.showPredictionPoints(false);
-
-                                calibrationEnd = true;
-
-                            } else if (result.isDenied) {
-                                //use restart function to restart the calibration
-                                webgazer.clearData();
-                                ClearCalibration();
-                                ClearCanvas();
-                                ShowCalibrationPoint();
-                            }
-                        });
-                    });
-                });
-            });
-        }
-    });
-});
