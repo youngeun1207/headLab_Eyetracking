@@ -191,6 +191,11 @@ function saveOffsets(){
 function handleExitClick(event) {
     writeData();
     webgazer.end();
+    swal.fire({
+        title: "수고하셨습니다!"
+    }).then(isConfirm => {
+        window.location.reload();
+    });
 }
 
 function saveScreenShot(storageRef) {
