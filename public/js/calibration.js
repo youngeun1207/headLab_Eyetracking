@@ -1,5 +1,10 @@
-import { userID } from "./canvas.js";
 import { Restart, startWebgaze } from "./eyetracking.js";
+
+export var userID = {
+    division: null,
+    class: null,
+    id: null
+};
 
 export var CalibrationPoints = {};
 export var calibrationEnd = false;

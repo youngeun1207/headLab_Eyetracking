@@ -1,8 +1,9 @@
 import { calibrationEnd, ClearCalibration, PopUpInstruction } from "./calibration.js";
-import { gazeData, referenceTimestamp } from "./canvas.js";
+import { gazeData } from "./canvas.js";
 import { reference, setReference } from "./reference.js";
 
 var gaze_data;
+export var referenceTimestamp = -1;
 
 export async function startWebgaze() {
   //start the webgazer tracker
@@ -18,6 +19,7 @@ export async function startWebgaze() {
             );
           }
           if(reference){
+
             referenceTimestamp = gazeData.length;
             setReference(false);
           }

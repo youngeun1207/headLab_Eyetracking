@@ -1,12 +1,6 @@
 import { writeData } from "./firebase.js";
 import { stopTimer } from "./stopwatch.js";
 
-export var userID = {
-    division: null,
-    class: null,
-    id: null
-};
-
 export const canvas = document.getElementById("jsCanvas");
 export const ctx = canvas.getContext("2d");
 export const colors = document.getElementsByClassName("jsColor");
@@ -18,7 +12,6 @@ export const saveBtn = document.getElementById("jsSave");
 export const exitBtn = document.getElementById("jsExit");
 
 export var gazeData = [];
-export var referenceTimestamp = -1;
 
 const dpr = window.devicePixelRatio;
 

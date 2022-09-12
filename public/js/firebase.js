@@ -1,6 +1,8 @@
-import { canvas, gazeData, getWindowsize, referenceTimestamp, saveOffsets, userID } from "./canvas.js";
-
-let today = new Date();
+import { userID } from "./calibration.js";
+import { canvas, gazeData, getWindowsize, saveOffsets} from "./canvas.js";
+import { referenceTimestamp } from "./eyetracking.js";
+import { path } from "./index.js";
+import { timestamp } from "./stopwatch.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBR0yFjUp3Rp6XrkVW7fuaYCjNU7t1xRB0",
@@ -14,6 +16,9 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
+const storage = firebase.app().storage("gs://iboda-eyetracking.appspot.com");
+const storageRef = storage.ref();
+
 
 export async function writeData() {
     const db = firebase.database(app);
@@ -21,34 +26,33 @@ export async function writeData() {
         id: userID,
         gaze_data: gazeData,
         reference_index: referenceTimestamp,
-        drawing: 'drawing/' + userID.id + today.getHours() + today.getMinutes(),
-        screenshot: 'screenshot/' + userID.id + today.getHours() + today.getMinutes(),
+        process_index: timestamp,
+        drawing: 'drawing/' + path,
+        screenshot: 'screenshot/' + path,
         offsets: saveOffsets(),
         window_size: getWindowsize()
     });
     saveImageDB();
 }
 
-export function saveScreenShot(storageRef) {
+export function saveScreenShot(time) {
     html2canvas(document.querySelector("#body")).then(canvas => {
         canvas.toBlob(function(blob) {
-            var file_path = storageRef.child('screenshot/' + userID.id + today.getHours() + today.getMinutes());
+            var file_path = storageRef.child('screenshot/' + path);
             file_path.put(blob);
         });
     });
 }
 
-export function saveDrawing(storageRef) {
+export function saveDrawing(time) {
     canvas.toBlob(function(blob) {
-        var file_path = storageRef.child('drawing/' + userID.id + today.getHours() + today.getMinutes());
+        var file_path = storageRef.child('drawing/' + path + time);
         file_path.put(blob);
     });
 }
 
 export async function saveImageDB() {
-    var storage = firebase.app().storage("gs://iboda-eyetracking.appspot.com");
-    var storageRef = storage.ref();
-
-    saveDrawing(storageRef);
-    saveScreenShot(storageRef);
+    const time = '_end';
+    saveDrawing(time);
+    saveScreenShot(time);
 }

@@ -3,15 +3,21 @@ import 'https://www.gstatic.com/firebasejs/8.8.1/firebase-storage.js';
 import "https://cdn.jsdelivr.net/npm/sweetalert2@11.4.29/dist/sweetalert2.all.min.js";
 
 import { canvas, clear, colors, erase, exitBtn, handleCanvasClick, handleClearClick, handleCM, handleColorClick, handleEraserClick, handleExitClick, handleModeClick, handleRangeChange, handleSaveClick, mode, onMouseMove, onTouchMove, range, saveBtn, startPainting, startPaintingMobile, stopPainting } from './canvas.js';
-import { calculatePrecision, CalibrationPoints, ClearCalibration, ClearCanvas, inputUserInfo, setCalibrationEnd, ShowCalibrationPoint, sleep, stop_storing_points_variable, store_points_variable } from './calibration.js';
+import { calculatePrecision, CalibrationPoints, ClearCalibration, ClearCanvas, inputUserInfo, setCalibrationEnd, ShowCalibrationPoint, sleep, stop_storing_points_variable, store_points_variable, userID } from './calibration.js';
 import { startTimer } from './stopwatch.js';
+import { loadFile, reference } from './reference.js'
 
 const REPEAT = 1;
 let PointCalibrate = 0;
 
-$(document).ready( function () {
+let today = new Date();
+export let path;
+
+$(document).ready( async function () {
     ClearCanvas();
-    inputUserInfo();
+    await inputUserInfo();
+    
+    path = userID.id + today.getHours() + today.getMinutes();
     $(".Calibration").click(function () { // click event on the calibration buttons
 
         var id = $(this).attr('id');
@@ -143,3 +149,11 @@ if (exitBtn) {
     exitBtn.addEventListener("click", handleExitClick, {once : true});
 }
 
+
+const input = document.getElementById("chooseFile");
+
+if (input) {
+    input.addEventListener('change', e => {
+        loadFile(e.target)
+    })
+};
