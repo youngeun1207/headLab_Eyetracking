@@ -83,37 +83,32 @@ export async function inputClass() {
 }
 
 export async function inputID() {
-    const { value: id } = await swal.fire({
+    await swal.fire({
         title: '아이디를 입력해주세요',
-        input: 'text',
-        inputPlaceholder: 'ID 입력',
-        inputAttributes: {
-            maxlength: 10,
-            autocapitalize: 'off',
-            autocorrect: 'off'
-        },
+        focusConfirm: false,
+        html: `<input type="text" id="login" class="swal2-input" placeholder="ID 입력">`,
         allowOutsideClick: false,
-        inputValidator: (value) => {
-            return new Promise((resolve) => {
-                if (value !== '') {
-                    resolve()
-                } else {
-                    resolve('아이디 입력은 필수입니다.')
-                }
-            })
+        preConfirm: () => {
+            const login = swal.getPopup().querySelector('#login').value
+            if (!login) {
+              Swal.showValidationMessage(`아이디 입력은 필수입니다.`)
+            }
+            return { login: login }
         }
+    }).then((result) => {
+        userID.id = result.value.login;
+        console.log(userID.id);
     })
-    if (id) {
-        userID.id = id;
-        startWebgaze();
-        Restart();
-    }
 }
 
 export async function inputUserInfo() {
     await inputDivision();
     await inputClass();
     await inputID();
+
+    startWebgaze();
+    Restart();
+    
     console.log(userID);
 }
 
