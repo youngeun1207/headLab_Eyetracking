@@ -1,8 +1,9 @@
-import { userID } from "./calibration.js";
-import { canvas, gazeData, getWindowsize, saveOffsets} from "./canvas.js";
-import { referenceTimestamp } from "./eyetracking.js";
+import { canvas, getWindowsize, saveOffsets } from "./canvas.js";
+import { gazeData } from "./eyetracking.js";
 import { path } from "./index.js";
+import { reference } from "./reference.js";
 import { timestamp } from "./stopwatch.js";
+import { personalInfo, userID } from "./user_info.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBR0yFjUp3Rp6XrkVW7fuaYCjNU7t1xRB0",
@@ -19,13 +20,17 @@ const app = firebase.initializeApp(firebaseConfig);
 const storage = firebase.app().storage("gs://iboda-eyetracking.appspot.com");
 const storageRef = storage.ref();
 
+export async function readStorage(path) {
+    return await storageRef.child(path).getDownloadURL();
+}
 
 export async function writeData() {
     const db = firebase.database(app);
     db.ref('data').push({
         id: userID,
         gaze_data: gazeData,
-        reference_index: referenceTimestamp,
+        is_reference: reference,
+        personal_info: personalInfo,
         process_index: timestamp,
         drawing: 'drawing/' + path,
         screenshot: 'screenshot/' + path,

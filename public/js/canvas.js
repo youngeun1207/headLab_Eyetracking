@@ -11,15 +11,11 @@ export const clear = document.getElementById("jsClear");
 export const saveBtn = document.getElementById("jsSave");
 export const exitBtn = document.getElementById("jsExit");
 
-export var gazeData = [];
-
 const dpr = window.devicePixelRatio;
 
 const INITIAL_COLOR = "2c2c2c";
 const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth * dpr;
 const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight * dpr;
-
-
 
 ctx.scale(dpr, dpr);
 
@@ -63,11 +59,6 @@ export function onMouseMove(event) {
     const x = event.offsetX * dpr;
     const y = event.offsetY * dpr;
 
-    if (erasing && painting) {
-        currentColor = ctx.fillStyle;
-        ctx.strokeStyle = "#ffffff";
-        ctx.fillStyle = "#ffffff";
-    }
     if (!painting) {
         ctx.beginPath();   //경로 생성
         ctx.moveTo(x, y);   //선 시작 좌표
@@ -137,6 +128,11 @@ export function handleModeClick() {
 }
 
 export function handleEraserClick() {
+    if(!erasing){
+        currentColor = ctx.fillStyle;
+    }
+    ctx.strokeStyle = "#ffffff";
+    ctx.fillStyle = "#ffffff";
     erasing = true;
     erase.style.background = "rgb(255, 200, 0)";
 }
@@ -196,10 +192,7 @@ export async function handleExitClick() {
     webgazer.end();
     swal.fire({
         title: "수고하셨습니다!"
-    }).then(isConfirm => {
-        // window.location.reload();
-        stopTimer();
-    });
+    }).then(stopTimer());
 }
 
 export function getWindowsize(){

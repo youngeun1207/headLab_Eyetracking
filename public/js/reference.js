@@ -1,43 +1,98 @@
+import { readStorage } from "./firebase.js";
+import { userID } from "./user_info.js";
 
 export var reference = false;
 
-export function loadFile(input) {
-    // var file = input.files[0];
-    // var newImage = document.createElement("img");
-    // newImage.setAttribute("class", 'fit-picture');
+// export function loadFile(input) {
+//     if (input.files && input.files[0]) {
+//         const reader = new FileReader()
+//         reader.onload = e => {
+//             var newImage = document.createElement("img");
+//             newImage.setAttribute("class", 'fit-picture');
 
-    // newImage.src = URL.createObjectURL(file);
-
-    // var container = document.getElementById('fit-picture');
-    // if(container.childElementCount > 0){
-    //     container.replaceChild(newImage, container.lastElementChild);
-    // }
-    // else{
-    //     container.appendChild(newImage);
-    // }
-    // reference = true;
-
-    if (input.files && input.files[0]) {
-        const reader = new FileReader()
-        reader.onload = e => {
-            var newImage = document.createElement("img");
-            newImage.setAttribute("class", 'fit-picture');
-
-            var container = document.getElementById('fit-picture');
+//             var container = document.getElementById('fit-picture');
             
-            newImage.src = e.target.result
-            if (container.childElementCount > 0) {
-                container.replaceChild(newImage, container.lastElementChild);
-            }
-            else {
-                container.appendChild(newImage);
-            }
+//             newImage.src = e.target.result
+//             if (container.childElementCount > 0) {
+//                 container.replaceChild(newImage, container.lastElementChild);
+//             }
+//             else {
+//                 container.appendChild(newImage);
+//             }
+//             reference = true;
+//         }
+//         reader.readAsDataURL(input.files[0])
+//     }
+// };
+
+export async function selectVersion(){
+    await swal.fire({
+        title: '참고 이미지를 사용하시겠습니까?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: '예',
+        denyButtonText: `아니요`,
+      }).then((result) => {
+        if (result.isConfirmed) {
             reference = true;
         }
-        reader.readAsDataURL(input.files[0])
+      })
+    if(reference){
+        await loadFile();
     }
-};
+}
 
-export function setReference(value) {
-    reference = value;
+async function loadFile(){
+    var newImage = document.createElement("img");
+    newImage.setAttribute("class", 'fit-picture');
+    newImage.src = await readStorage(await chooseReference());
+
+    const container = document.getElementById('fit-picture');
+    container.appendChild(newImage);
+
+    console.log(newImage.src)
+}
+
+async function chooseReference(){
+    var level;
+
+    if(userID.class == 'red' || userID.class == 'green' || userID.class == 'purple'){
+        level = "1";
+    }
+    else if(userID.class == 'orange' || userID.class == 'blue' || userID.class == 'pink'){
+        level = "2";
+    }
+    else if(userID.class == 'yellow' || userID.class == 'sky' || userID.class == 'white'){
+        level = "3";
+    }
+    else{
+        level = "3";
+    }
+
+    const { value: topic } = await swal.fire({
+        title: '주제를 선택해주세요',
+        input: 'select',
+        inputOptions: {
+            architecture: '건축물',
+            transportation: '교통수단',
+            animal: '동물',
+            plant: '식물',
+            person: '인물'
+        },
+        inputPlaceholder: '주제 선택',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                if (value != '') {
+                    resolve()
+                } else {
+                    resolve('주제 선택은 필수입니다.')
+                }
+            })
+        }
+    }).then() 
+    if (topic) {
+        return "reference/" + topic + "_level" + level + ".jpg";
+    }
 }
