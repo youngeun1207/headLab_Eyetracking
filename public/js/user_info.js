@@ -34,6 +34,13 @@ export async function inputDivision() {
 
     if(division){
         userID.division = division;
+
+        $("body *").css({
+            '-webkit-user-select': 'none',
+            '-moz-user-select': 'none',
+            '-ms-user-select': 'none',
+            'user-select': 'none'
+        });
     }
 }
 
