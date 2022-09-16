@@ -18,6 +18,7 @@
   "homepage": "https://github.com/youngeun1207/headLab_Eyetracking#readme",
   "dependencies": {
     "bootstrap": "^5.2.0",
+    "cors": "^2.8.5",
     "firebase": "^9.9.3",
     "sweetalert": "^2.1.2"
   }

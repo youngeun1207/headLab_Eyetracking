@@ -9,7 +9,7 @@ import { inputUserInfo, userID } from './user_info.js';
 import { Restart, startWebgaze } from './eyetracking.js';
 import { selectVersion } from './reference.js';
 
-const REPEAT = 1;
+const REPEAT = 5;
 let PointCalibrate = 0;
 
 let today = new Date();
