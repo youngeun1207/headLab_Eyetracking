@@ -6,7 +6,7 @@ export var userID = {
 
 export var personalInfo = {
     age: null,
-    gerder: null,
+    gender: null,
     disability_type: "NA"
 };
 
@@ -85,7 +85,7 @@ export async function inputGender(){
         }
       })
       if (gender) {
-        personalInfo.gerder = gender;
+        personalInfo.gender = gender;
       }
 }
 
