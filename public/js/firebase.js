@@ -37,11 +37,14 @@ export async function writeData() {
         offsets: saveOffsets(),
         window_size: getWindowsize()
     });
-    saveImageDB();
+    await saveImageDB();
 }
 
-export function saveScreenShot(time) {
-    html2canvas(document.querySelector("#body")).then(canvas => {
+export async function saveScreenShot() {
+    html2canvas(document.querySelector("#body"), {
+        allowTaint: true,
+        useCORS: true,
+    }).then(canvas => {
         canvas.toBlob(function(blob) {
             var file_path = storageRef.child('screenshot/' + path);
             file_path.put(blob);
@@ -49,7 +52,7 @@ export function saveScreenShot(time) {
     });
 }
 
-export function saveDrawing(time) {
+export async function saveDrawing(time) {
     canvas.toBlob(function(blob) {
         var file_path = storageRef.child('drawing/' + path + time);
         file_path.put(blob);
@@ -58,6 +61,6 @@ export function saveDrawing(time) {
 
 export async function saveImageDB() {
     const time = '_end';
-    saveDrawing(time);
-    saveScreenShot(time);
+    await saveDrawing(time);
+    await saveScreenShot();
 }

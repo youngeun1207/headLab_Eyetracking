@@ -44,12 +44,10 @@ export async function selectVersion(){
 async function loadFile(){
     var newImage = document.createElement("img");
     newImage.setAttribute("class", 'fit-picture');
-    newImage.src = await readStorage(await chooseReference());
+    newImage.src = await chooseReference();
 
     const container = document.getElementById('fit-picture');
     container.appendChild(newImage);
-
-    console.log(newImage.src)
 }
 
 async function chooseLevel(){
@@ -99,6 +97,6 @@ async function chooseReference(){
         }
     }).then() 
     if (topic) {
-        return "reference/" + topic + "_level" + level + ".jpg";
+        return "./reference/" + topic + "_level" + level + ".jpg";
     }
 }

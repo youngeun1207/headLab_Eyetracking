@@ -184,32 +184,11 @@ export function saveOffsets(){
 }
 
 export async function handleExitClick() {
-    var isConfirm = false;
-    await swal.fire({
-        title: '정말 종료하시겠습니까?',
-        text: "종료하시면 이어서 작업할 수 없습니다!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: '종료',
-        cancelButtonText: '취소',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            isConfirm = true;
-        }
-    })
-
-    if(isConfirm){
-        terminateProcess();
-    }
-}
-
-export async function terminateProcess(){
     await writeData();
     webgazer.end();
     swal.fire({
         title: "수고하셨습니다!"
     }).then(stopTimer());
-    exitBtn.removeEventListener('click', handleExitClick);
 }
 
 export function getWindowsize(){

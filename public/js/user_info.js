@@ -95,7 +95,7 @@ export async function inputAge(){
         input: 'range',
         inputAttributes: {
             min: 8,
-            max: 100,
+            max: 30,
             step: 1
         },
         inputValue: 15,
