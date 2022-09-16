@@ -53,8 +53,28 @@ async function loadFile(){
     console.log(newImage.src)
 }
 
+async function chooseLevel(){
+    const { value: level } = await swal.fire({
+        title: '난이도를 선택해주세요',
+        input: 'radio',
+        inputOptions: {
+            1: "진입",
+            2: "심화",
+            3: "확장"
+        },
+        inputValidator: (value) => {
+          if (!value) {
+            return '난이도 선택은 필수입니다.'
+          }
+        }
+      })
+      if (level) {
+        return level;
+      }
+}
+
 async function chooseReference(){
-    var level;
+    var level = await chooseLevel();
 
     if(userID.class == 'red' || userID.class == 'green' || userID.class == 'purple'){
         level = "1";

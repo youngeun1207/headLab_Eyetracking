@@ -6,7 +6,8 @@ export var userID = {
 
 export var personalInfo = {
     age: null,
-    gerder: null
+    gerder: null,
+    disability_type: "NA"
 };
 
 export async function inputDivision() {
@@ -34,13 +35,38 @@ export async function inputDivision() {
 
     if(division){
         userID.division = division;
+        if(division == "disability"){
+            await inputDisabilityType();
+        }
+    }
+}
 
-        $("body *").css({
-            '-webkit-user-select': 'none',
-            '-moz-user-select': 'none',
-            '-ms-user-select': 'none',
-            'user-select': 'none'
-        });
+async function inputDisabilityType(){
+    const { value: type } = await swal.fire({
+        title: '장애 유형을 선택해주세요',
+        input: 'select',
+        inputOptions: {
+            autism: '자폐',
+            intellectual: '지적',
+            complex: '복합',
+            etc: '기타'
+        },
+        inputPlaceholder: '장애 유형을 선택',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                if (value != '') {
+                    resolve()
+                } else {
+                    resolve('장애 유형 선택은 필수입니다.')
+                }
+            })
+        }
+    }).then()
+
+    if(type){
+        personalInfo.disability_type = type;
     }
 }
 
@@ -131,6 +157,12 @@ export async function inputID() {
         }
     }).then((result) => {
         userID.id = result.value.login;
+        $("body *").css({
+            '-webkit-user-select': 'none',
+            '-moz-user-select': 'none',
+            '-ms-user-select': 'none',
+            'user-select': 'none'
+        });
     })
 }
 
