@@ -1,5 +1,4 @@
 import { readStorage } from "./firebase.js";
-import { userID } from "./user_info.js";
 
 export var reference = false;
 

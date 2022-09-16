@@ -1,4 +1,4 @@
-import { exitBtn, handleExitClick } from "./canvas.js";
+import { terminateProcess } from "./canvas.js";
 import { gazeData } from "./eyetracking.js";
 import { saveDrawing } from "./firebase.js";
 import { reference } from "./reference.js";
@@ -39,8 +39,7 @@ function getTimeFormatString() {
             saveDrawing("_5");
             timestamp.min5 = gazeData.length;
         } else{
-            handleExitClick();
-            exitBtn.removeEventListener('click', handleExitClick);
+            terminateProcess();
         }
     }
     if (min == 7 && sec == 0){
@@ -48,8 +47,7 @@ function getTimeFormatString() {
         timestamp.min7 = gazeData.length;
     }
     if (min == 10 && sec == 0){
-        handleExitClick();
-        exitBtn.removeEventListener('click', handleExitClick);
+        terminateProcess();
     }
 
     return String(min).padStart(2, '0') + ":" + String(sec).padStart(2, '0');

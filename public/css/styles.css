@@ -284,6 +284,12 @@ li {
     color: #123373 !important;
 }
 
+.swal2-styled.swal2-cancel {
+    background-color: #123373 !important;
+    border: none;
+    color: #ffffff !important;
+}
+
 .swal2-styled.swal2-deny {
     background-color: #123373 !important;
     color: rgb(255, 219, 85) !important;

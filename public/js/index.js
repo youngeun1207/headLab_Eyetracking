@@ -9,7 +9,7 @@ import { inputUserInfo, userID } from './user_info.js';
 import { Restart, startWebgaze } from './eyetracking.js';
 import { selectVersion } from './reference.js';
 
-const REPEAT = 5;
+const REPEAT = 1;
 let PointCalibrate = 0;
 
 let today = new Date();
@@ -150,5 +150,5 @@ if (clear) {
 }
 
 if (exitBtn) {
-    exitBtn.addEventListener("click", handleExitClick, {once : true});
+    exitBtn.addEventListener("click", handleExitClick);
 }
