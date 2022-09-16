@@ -85,11 +85,7 @@ export function onTouchMove(event) {
 
     x *= dpr;
     y *= dpr;
-    if (erasing && painting) {
-        currentColor = ctx.fillStyle;
-        ctx.strokeStyle = "#ffffff";
-        ctx.fillStyle = "#ffffff";
-    }
+    
     if (painting) {
         ctx.lineTo(x, y);   //선 끝 좌표
         ctx.lineCap = 'round';
@@ -112,7 +108,7 @@ export function handleRangeChange(event) {
 }
 
 export function handleModeClick() {
-    if (erasing === true) {
+    if (erasing) {
         erasing = false;
         ctx.strokeStyle = currentColor;
         ctx.fillStyle = currentColor;

@@ -74,20 +74,7 @@ async function chooseLevel(){
 }
 
 async function chooseReference(){
-    var level = await chooseLevel();
-
-    if(userID.class == 'red' || userID.class == 'green' || userID.class == 'purple'){
-        level = "1";
-    }
-    else if(userID.class == 'orange' || userID.class == 'blue' || userID.class == 'pink'){
-        level = "2";
-    }
-    else if(userID.class == 'yellow' || userID.class == 'sky' || userID.class == 'white'){
-        level = "3";
-    }
-    else{
-        level = "3";
-    }
+    const level = await chooseLevel();
 
     const { value: topic } = await swal.fire({
         title: '주제를 선택해주세요',
