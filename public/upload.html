@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+
+    <title>upload</title>
+</head>
+
+<body>
+    <div class="fit-picture" id="fit-picture" alt="image"></div>
+    <input type="file" id="image">
+    <input type="text" class="text-input" id="fileName" name="filename" placeholder="디렉토리명/파일이름">
+    <input type="button" class="submit" id="submit" name="submit" value='파일명 입력'>
+</body>
+<script src="js/upload.js" type="module"></script>
+
+</html>
