@@ -26,7 +26,7 @@ export async function readStorage(path) {
 
 export async function writeData() {
     const db = firebase.database(app);
-    db.ref('data').push({
+    const dataRef = db.ref('data').push({
         id: userID,
         gaze_data: gazeData,
         is_reference: reference,
@@ -36,6 +36,12 @@ export async function writeData() {
         screenshot: 'screenshot/' + path,
         offsets: saveOffsets(),
         window_size: getWindowsize()
+    });
+    const refKey = dataRef.key;
+    const usersRef = db.ref('key_info').child(refKey);
+    usersRef.set({
+        id: userID,
+        is_reference: reference
     });
     await saveImageDB();
 }
