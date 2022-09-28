@@ -1,6 +1,6 @@
 import { canvas, getWindowsize, saveOffsets } from "./canvas.js";
 import { gazeData } from "./eyetracking.js";
-import { path } from "./index.js";
+import { accuracy, path } from "./index.js";
 import { reference } from "./reference.js";
 import { timestamp } from "./stopwatch.js";
 import { personalInfo, userID } from "./user_info.js";
@@ -31,6 +31,7 @@ export async function writeData() {
     const dataRef = db.ref('data').push({
         id: userID,
         gaze_data: gazeData,
+        accuracy: accuracy,
         is_reference: reference,
         audio: `sound/${path}.mp3`,
         personal_info: personalInfo,

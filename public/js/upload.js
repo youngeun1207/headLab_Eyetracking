@@ -12,7 +12,9 @@ const firebaseConfig = {
     measurementId: "G-5S6M0YT4GH"
 };
 
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.database(app);
+const dbRef = db.ref();
 const storage = firebase.app().storage("gs://iboda-eyetracking.appspot.com");
 const storageRef = storage.ref();
 
@@ -25,6 +27,26 @@ function uploadFile() {
     path.put(file)
 }
 
+export async function readDatabase(dir) {
+    const data = await dbRef.child(dir).get();
+    if (!data.val()) console.error("err");
+    return data.val();
+}
+
+async function updateDB(){
+    const data = await readDatabase("key_info");
+    const key_list = Object.keys(data);
+    console.log(key_list);
+    key_list.map(key => updateAcc(dbRef.child('data').child(key)));
+}
+async function updateAcc(dataRef){
+    if(dataRef.accuracy){
+        return;
+    }
+    dataRef.update({
+        'accuracy': 80
+    });
+}
 
 const btn = document.getElementById("submit");
 if (btn) {

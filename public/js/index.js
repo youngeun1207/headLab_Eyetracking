@@ -15,6 +15,7 @@ let PointCalibrate = 0;
 
 let today = new Date();
 export let path;
+export let accuracy;
 
 $(document).ready( async function () {
     ClearCanvas();
@@ -83,6 +84,7 @@ $(document).ready( async function () {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 //clear the calibration & hide the last middle button
+                                accuracy = precision_measurement;
                                 ClearCanvas();
                                 canvas.style.height = "0px";
                                 webgazer.showVideoPreview(false);
@@ -109,7 +111,6 @@ $(document).ready( async function () {
     });
 });
 
-// startTimer();
 
 if (canvas) {
     canvas.addEventListener("touchstart", startPaintingMobile);
