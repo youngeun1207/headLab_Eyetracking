@@ -19,6 +19,8 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const storage = firebase.app().storage("gs://iboda-eyetracking.appspot.com");
 const storageRef = storage.ref();
+const auth = firebase.auth(app);
+auth.signInAnonymously();
 
 export async function readStorage(path) {
     return await storageRef.child(path).getDownloadURL();
@@ -30,6 +32,7 @@ export async function writeData() {
         id: userID,
         gaze_data: gazeData,
         is_reference: reference,
+        audio: `sound/${path}.mp3`,
         personal_info: personalInfo,
         process_index: timestamp,
         drawing: 'drawing/' + path,
@@ -52,7 +55,7 @@ export async function saveScreenShot() {
         useCORS: true,
     }).then(canvas => {
         canvas.toBlob(function(blob) {
-            var file_path = storageRef.child('screenshot/' + path);
+            const file_path = storageRef.child('screenshot/' + path);
             file_path.put(blob);
         });
     });
@@ -60,7 +63,7 @@ export async function saveScreenShot() {
 
 export async function saveDrawing(time) {
     canvas.toBlob(function(blob) {
-        var file_path = storageRef.child('drawing/' + path + time);
+        const file_path = storageRef.child('drawing/' + path + time);
         file_path.put(blob);
     });
 }
@@ -69,4 +72,9 @@ export async function saveImageDB() {
     const time = '_end';
     await saveDrawing(time);
     await saveScreenShot();
+}
+
+export async function saveVoice(file){
+    const filePath = storageRef.child(`sound/${path}.mp3`);
+    filePath.put(file)
 }

@@ -1,9 +1,9 @@
-export var CalibrationPoints = {};
-export var calibrationEnd = false;
+export let CalibrationPoints = {};
+export let calibrationEnd = false;
 
 export function ClearCanvas() {
     $(".Calibration").hide();
-    var canvas = document.getElementById("plotting_canvas");
+    const canvas = document.getElementById("plotting_canvas");
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -51,20 +51,20 @@ export function stop_storing_points_variable() {
  * the eye tracker currently is which is displayed to the user
  */
 export function calculatePrecision(past50Array) {
-    var windowHeight = $(window).height();
-    var windowWidth = $(window).width();
+    const windowHeight = $(window).height();
+    const windowWidth = $(window).width();
 
     // Retrieve the last 50 gaze prediction points
-    var x50 = past50Array[0];
-    var y50 = past50Array[1];
+    const x50 = past50Array[0];
+    const y50 = past50Array[1];
 
     // Calculate the position of the point the user is staring at
-    var staringPointX = windowWidth / 2;
-    var staringPointY = windowHeight / 2;
+    const staringPointX = windowWidth / 2;
+    const staringPointY = windowHeight / 2;
 
-    var precisionPercentages = new Array(50);
+    const precisionPercentages = new Array(50);
     calculatePrecisionPercentages(precisionPercentages, windowHeight, x50, y50, staringPointX, staringPointY);
-    var precision = calculateAverage(precisionPercentages);
+    const precision = calculateAverage(precisionPercentages);
 
     // Return the precision measurement as a rounded percentage
     return Math.round(precision);
@@ -75,15 +75,15 @@ export function calculatePrecision(past50Array) {
  * the prediction point from the centre point (uses the window height as lower threshold 0%)
  */
 export function calculatePrecisionPercentages(precisionPercentages, windowHeight, x50, y50, staringPointX, staringPointY) {
-    for (var x = 0; x < 50; x++) {
+    for (let x = 0; x < 50; x++) {
         // Calculate distance between each prediction and staring point
-        var xDiff = staringPointX - x50[x];
-        var yDiff = staringPointY - y50[x];
-        var distance = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
+        const xDiff = staringPointX - x50[x];
+        const yDiff = staringPointY - y50[x];
+        const distance = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
 
         // Calculate precision percentage
-        var halfWindowHeight = windowHeight / 2;
-        var precision = 0;
+        const halfWindowHeight = windowHeight / 2;
+        let precision = 0;
         if (distance <= halfWindowHeight && distance > -1) {
             precision = 100 - (distance / halfWindowHeight * 100);
         } else if (distance > halfWindowHeight) {
@@ -101,8 +101,8 @@ export function calculatePrecisionPercentages(precisionPercentages, windowHeight
  * Calculates the average of all precision percentages calculated
  */
 export function calculateAverage(precisionPercentages) {
-    var precision = 0;
-    for (var x = 0; x < 50; x++) {
+    let precision = 0;
+    for (let x = 0; x < 50; x++) {
         precision += precisionPercentages[x];
     }
     precision = precision / 50;

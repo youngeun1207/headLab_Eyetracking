@@ -1,10 +1,10 @@
-export var userID = {
+export let userID = {
     division: null,
     class: null,
     id: null
 };
 
-export var personalInfo = {
+export let personalInfo = {
     age: null,
     gender: null,
     disability_type: "NA"

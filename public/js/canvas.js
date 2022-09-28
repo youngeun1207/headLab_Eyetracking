@@ -1,4 +1,5 @@
 import { writeData } from "./firebase.js";
+import { stopRecording } from "./record_voice.js";
 import { stopTimer } from "./stopwatch.js";
 
 export const canvas = document.getElementById("jsCanvas");
@@ -30,7 +31,7 @@ ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 5;
 ctx.lineJoin = 'round';
 
-var currentColor;
+let currentColor;
 
 let painting = false;
 let filling = false;
@@ -46,8 +47,8 @@ export function startPaintingMobile(event) {
     const rect = event.target.getBoundingClientRect();
 
     ctx.beginPath();
-    var x = (event.touches[0].clientX - window.pageXOffset - rect.left) * dpr;
-    var y = (event.touches[0].clientY - window.pageYOffset - rect.top) * dpr;
+    const x = (event.touches[0].clientX - window.pageXOffset - rect.left) * dpr;
+    const y = (event.touches[0].clientY - window.pageYOffset - rect.top) * dpr;
     ctx.moveTo(x, y);
 }
 
@@ -73,7 +74,7 @@ export function onMouseMove(event) {
 
 export function onTouchMove(event) {
     const rect = event.target.getBoundingClientRect();
-    var x, y = 0;
+    let x, y = 0;
 
     if (window.innerHeight < window.innerWidth) {
         x = event.touches[0].clientX - window.pageXOffset - rect.left;
@@ -159,10 +160,10 @@ export function handleSaveClick() {
 }
 
 export function getOffsets(id){
-    var target = document.getElementById(id);
+    const target = document.getElementById(id);
 
-    var left = target.offsetLeft;
-    var top = target.offsetTop;
+    const left = target.offsetLeft;
+    const top = target.offsetTop;
 
     const offset = {
         l: left,
@@ -175,7 +176,7 @@ export function getOffsets(id){
 }
 
 export function saveOffsets(){
-    var offset = {
+    const offset = {
         controler: getOffsets('controls'),
         canvas: getOffsets('jsCanvas'),
         reference: getOffsets('fit-picture')
@@ -185,6 +186,7 @@ export function saveOffsets(){
 
 export async function handleExitClick() {
     await writeData();
+    stopRecording();
     webgazer.end();
     swal.fire({
         title: "수고하셨습니다!"

@@ -18,15 +18,16 @@ const storageRef = storage.ref();
 
 
 function uploadFile() {
-    var file = document.querySelector('#image').files[0];
-    var filename = document.getElementById('fileName').value;
-    
-    var path = storageRef.child(filename);
+    const file = document.querySelector('#image').files[0];
+    const filename = document.getElementById('fileName').value;
+
+    const path = storageRef.child(filename);
     path.put(file)
 }
 
+
 const btn = document.getElementById("submit");
 if (btn) {
-    btn.addEventListener('click',uploadFile)
+    btn.addEventListener('click', uploadFile)
 };
 

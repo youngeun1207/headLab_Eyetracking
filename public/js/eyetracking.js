@@ -1,8 +1,8 @@
 import { calibrationEnd, ClearCalibration, PopUpInstruction } from "./calibration.js";
 
-var gaze_data; 
+let gaze_data; 
 
-export var gazeData = [];
+export let gazeData = [];
 
 export async function startWebgaze() {
   //start the webgazer tracker
@@ -28,9 +28,9 @@ export async function startWebgaze() {
           .applyKalmanFilter(true); /* Kalman Filter defaults to on. Can be toggled by user. */
 
   //Set up the webgazer video feedback.
-  var setup = function() {
+  let setup = function() {
       //Set up the main canvas. The main canvas is used to calibrate the webgazer.
-      var canvas = document.getElementById("plotting_canvas");
+      const canvas = document.getElementById("plotting_canvas");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       canvas.style.position = 'fixed';

@@ -42,7 +42,7 @@ export async function selectVersion(){
 }
 
 async function loadFile(){
-    var newImage = document.createElement("img");
+    const newImage = document.createElement("img");
     newImage.setAttribute("class", 'fit-picture');
     newImage.src = await chooseReference();
 

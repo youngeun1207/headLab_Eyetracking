@@ -1,6 +1,6 @@
-import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js';
 import 'https://www.gstatic.com/firebasejs/8.8.1/firebase-storage.js';
 import "https://cdn.jsdelivr.net/npm/sweetalert2@11.4.29/dist/sweetalert2.all.min.js";
+import "https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js";
 
 import { canvas, clear, colors, erase, exitBtn, handleCanvasClick, handleClearClick, handleCM, handleColorClick, handleEraserClick, handleExitClick, handleModeClick, handleRangeChange, handleSaveClick, mode, onMouseMove, onTouchMove, range, saveBtn, startPainting, startPaintingMobile, stopPainting } from './canvas.js';
 import { calculatePrecision, CalibrationPoints, ClearCalibration, ClearCanvas, setCalibrationEnd, ShowCalibrationPoint, sleep, stop_storing_points_variable, store_points_variable } from './calibration.js';
@@ -8,6 +8,7 @@ import { startTimer } from './stopwatch.js';
 import { inputUserInfo, userID } from './user_info.js';
 import { Restart, startWebgaze } from './eyetracking.js';
 import { selectVersion } from './reference.js';
+import { recordVoice } from './record_voice.js';
 
 const REPEAT = 5;
 let PointCalibrate = 0;
@@ -25,7 +26,7 @@ $(document).ready( async function () {
     path = userID.id + today.getHours() + today.getMinutes();
     $(".Calibration").click(function () { // click event on the calibration buttons
 
-        var id = $(this).attr('id');
+        const id = $(this).attr('id');
 
         if (!CalibrationPoints[id]) { // initialises if not done
             CalibrationPoints[id] = 0;
@@ -38,7 +39,7 @@ $(document).ready( async function () {
             PointCalibrate++;
         } else if (CalibrationPoints[id] < REPEAT) {
             //Gradually increase the opacity of calibration points when click to give some indication to user.
-            var opacity = 0.15 * CalibrationPoints[id] + 0.4;
+            let opacity = 0.15 * CalibrationPoints[id] + 0.4;
             $(this).css('opacity', opacity);
         }
 
@@ -53,7 +54,7 @@ $(document).ready( async function () {
             $("#Pt5").show();
 
             // clears the canvas
-            var canvas = document.getElementById("plotting_canvas");
+            const canvas = document.getElementById("plotting_canvas");
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
             // notification for the measurement process
@@ -70,8 +71,8 @@ $(document).ready( async function () {
 
                     sleep(REPEAT*1000).then(() => {
                         stop_storing_points_variable(); // stop storing the prediction points
-                        var past50 = webgazer.getStoredPoints(); // retrieve the stored points
-                        var precision_measurement = calculatePrecision(past50);
+                        let past50 = webgazer.getStoredPoints(); // retrieve the stored points
+                        let precision_measurement = calculatePrecision(past50);
                         swal.fire({
                             title: "당신의 시선 추적 정확도는 " + precision_measurement + "%",
                             focusConfirm: false,
@@ -90,6 +91,7 @@ $(document).ready( async function () {
 
                                 setCalibrationEnd(true);
                                 startTimer();
+                                recordVoice();
 
                             } else if (result.isDenied) {
                                 //use restart function to restart the calibration
