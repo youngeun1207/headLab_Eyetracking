@@ -39,6 +39,13 @@ export async function selectVersion(){
     if(reference){
         await loadFile();
     }
+    else {
+        const img_container = document.getElementById("image-container");
+        img_container.remove();
+        const canvas_container = document.getElementById("canvas-container");
+        canvas_container.style.marginLeft = "auto";
+        canvas_container.style.marginRight = "auto";
+    }
 }
 
 async function loadFile(){

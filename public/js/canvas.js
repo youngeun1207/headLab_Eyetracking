@@ -170,7 +170,6 @@ export function getOffsets(id){
         r: left + target.offsetWidth,
         t: top,
         b: top + target.offsetHeight
-
     }
     return offset;
 }

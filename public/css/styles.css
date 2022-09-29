@@ -70,7 +70,7 @@ div.image-test {
     width: 40%;
     text-align: center;
     box-sizing: border-box;
-    margin-right: 50px;
+    padding-right: 30px;
     display: flex;
     flex-direction: column;
 }
