@@ -121,6 +121,10 @@ export async function inputClass() {
             pink: '분홍',
             purple: '보라',
             white: '하양',
+            fineArt: '전공실기: 회화',
+            media: '전공실기: 미디어',
+            design: '전공실기: 일러스트 및 디자인',
+            composite: '전공실기: 복합매체',
             test: 'tester'
         },
         inputPlaceholder: '반 선택',

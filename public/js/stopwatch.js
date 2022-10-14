@@ -61,7 +61,7 @@ export function startTimer() {
     timerId = setTimeout(startTimer, 1000);
 }
 
-export function stopTimer() {
+export async function stopTimer() {
     if (timerId != null) {
         clearTimeout(timerId);
     }

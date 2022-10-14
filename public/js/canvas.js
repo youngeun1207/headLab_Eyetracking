@@ -1,5 +1,7 @@
+import { sleep } from "./calibration.js";
 import { writeData } from "./firebase.js";
 import { stopRecording } from "./record_voice.js";
+import { reference } from "./reference.js";
 import { stopTimer } from "./stopwatch.js";
 
 export const canvas = document.getElementById("jsCanvas");
@@ -175,21 +177,26 @@ export function getOffsets(id){
 }
 
 export function saveOffsets(){
-    const offset = {
+    let offset = {
         controler: getOffsets('controls'),
         canvas: getOffsets('jsCanvas'),
-        reference: getOffsets('fit-picture')
+        reference: {l:0, r:0, t:0, b:0}
+    }
+    if(reference){
+        offset.reference = getOffsets('fit-picture')
     }
     return offset;
 }
 
 export async function handleExitClick() {
-    await writeData();
     stopRecording();
+    await writeData();
     webgazer.end();
     swal.fire({
         title: "수고하셨습니다!"
-    }).then(stopTimer());
+    }).then(() => {
+        stopTimer();
+    });
 }
 
 export function getWindowsize(){

@@ -92,6 +92,9 @@ $(document).ready( async function () {
                                 webgazer.showPredictionPoints(false);
 
                                 setCalibrationEnd(true);
+                                swal.fire({
+                                    title: "그림을 그리는 동안 지금의 자세를 유지해 주세요."
+                                })
                                 startTimer();
                                 recordVoice();
 
