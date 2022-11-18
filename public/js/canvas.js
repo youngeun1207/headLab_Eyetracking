@@ -8,15 +8,15 @@ export const canvas = document.getElementById("jsCanvas");
 export const ctx = canvas.getContext("2d");
 export const colors = document.getElementsByClassName("jsColor");
 export const range = document.getElementById("jsRange");
-export const mode = document.getElementById("jsMode");
+export const paint = document.getElementById("jsPaint");
 export const erase = document.getElementById("jsEraser");
-export const clear = document.getElementById("jsClear");
+// export const clear = document.getElementById("jsClear");
 export const saveBtn = document.getElementById("jsSave");
 export const exitBtn = document.getElementById("jsExit");
 
 const dpr = window.devicePixelRatio;
 
-const INITIAL_COLOR = "2c2c2c";
+const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_WIDTH = document.getElementById("canvas-container").offsetWidth * dpr;
 const CANVAS_HEIGHT = document.getElementById("canvas-container").offsetHeight * dpr;
 
@@ -33,10 +33,9 @@ ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 5;
 ctx.lineJoin = 'round';
 
-let currentColor;
+let currentColor = INITIAL_COLOR;
 
 let painting = false;
-let filling = false;
 let erasing = false;
 
 
@@ -101,6 +100,10 @@ export function handleColorClick(event) {
     Array.from(colors).forEach(color => color.style.border = "none");
     event.target.style.border = "2px solid #f2f2f2";
 
+    if(erasing){
+        currentColor = color;
+        return;
+    }
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
 }
@@ -110,30 +113,32 @@ export function handleRangeChange(event) {
     ctx.lineWidth = size;
 }
 
-export function handleModeClick() {
+export function handlePaintClick() {
+    if(!erasing){
+        return;
+    }
     if (erasing) {
         erasing = false;
         ctx.strokeStyle = currentColor;
         ctx.fillStyle = currentColor;
-        erase.style.background = "rgba(255, 219, 85)";
-    }
-    else if (filling === true) {
-        filling = false;
-        mode.innerText = "붓";
-    } else {
-        filling = true;
-        mode.innerText = "채우기";
+        paint.style.background = "rgb(255, 200, 0)";
+        erase.style.background = "rgb(255, 219, 85)";
     }
 }
 
 export function handleEraserClick() {
-    if(!erasing){
-        currentColor = ctx.fillStyle;
+    if(erasing){
+        return;
     }
-    ctx.strokeStyle = "#ffffff";
-    ctx.fillStyle = "#ffffff";
-    erasing = true;
-    erase.style.background = "rgb(255, 200, 0)";
+    if(!erasing){
+        console.log("er");
+        currentColor = ctx.fillStyle;
+        ctx.strokeStyle = "#ffffff";
+        ctx.fillStyle = "#ffffff";
+        erasing = true;
+        paint.style.background = "rgb(255, 219, 85)";
+        erase.style.background = "rgb(255, 200, 0)";
+    }
 }
 
 export function handleClearClick() {
@@ -141,12 +146,6 @@ export function handleClearClick() {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.fillStyle = currentColor;
-}
-
-export function handleCanvasClick() {
-    if (filling) {
-        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    }
 }
 
 export function handleCM(event) {

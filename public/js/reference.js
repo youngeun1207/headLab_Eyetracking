@@ -51,7 +51,9 @@ export async function selectVersion(){
 async function loadFile(){
     const newImage = document.createElement("img");
     newImage.setAttribute("class", 'fit-picture');
-    newImage.src = await chooseReference();
+    // newImage.src = await chooseReference();
+    // 11.17 할머니 이미지로 래퍼런스 통일 
+    newImage.src = "./reference/person_level3.jpg";
 
     const container = document.getElementById('fit-picture');
     container.appendChild(newImage);
