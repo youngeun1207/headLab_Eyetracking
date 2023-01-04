@@ -51,6 +51,9 @@ function getTimeFormatString() {
         handleExitClick();
         exitBtn.removeEventListener('click', handleExitClick);
     }
+    if (sec != 0 && sec%10 == 0){
+        saveDrawing(`_${min}_${sec}`);
+    }
 
     return String(min).padStart(2, '0') + ":" + String(sec).padStart(2, '0');
 }
