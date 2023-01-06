@@ -64,7 +64,7 @@ export async function saveScreenShot() {
 
 export async function saveDrawing(time) {
     canvas.toBlob(function(blob) {
-        const file_path = storageRef.child('drawing/' + `${path}/${path}${time}`);
+        const file_path = storageRef.child('drawing/' + `${path}/${path}${time}.png`);
         file_path.put(blob);
     });
 }
