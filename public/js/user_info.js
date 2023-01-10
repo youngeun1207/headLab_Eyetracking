@@ -1,14 +1,23 @@
 export let userID = {
     division: null,
-    class: null,
     id: null
 };
-
 export let personalInfo = {
     age: null,
-    gender: null,
-    disability_type: "NA"
+    gender: null
 };
+
+// export let userID = {
+//     division: null,
+//     class: null,
+//     id: null
+// };
+
+// export let personalInfo = {
+//     age: null,
+//     gender: null,
+//     disability_type: "NA"
+// };
 
 export async function inputDivision() {
     const { value: division } = await swal.fire({
@@ -173,7 +182,9 @@ export async function inputID() {
 export async function inputUserInfo() {
     await inputAge();
     await inputGender();
-    await inputDivision();
-    await inputClass();
+    // await inputDivision();
+    // 1월 테스트
+    userID.division = 'JAN';
+    // await inputClass();
     await inputID();
 }
