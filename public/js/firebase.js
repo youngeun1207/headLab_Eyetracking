@@ -42,7 +42,9 @@ export async function writeData() {
         window_size: getWindowsize()
     });
     const refKey = dataRef.key;
-    const usersRef = db.ref('key_info').child(refKey);
+    // const usersRef = db.ref('key_info').child(refKey);
+    // 1월 테스트용
+    const usersRef = db.ref('key_info_2023JAN').child(refKey);
     usersRef.set({
         id: userID,
         is_reference: reference
