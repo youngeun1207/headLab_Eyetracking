@@ -1,4 +1,3 @@
-import { sleep } from "./calibration.js";
 import { writeData } from "./firebase.js";
 import { stopRecording } from "./record_voice.js";
 import { reference } from "./reference.js";
@@ -10,7 +9,6 @@ export const colors = document.getElementsByClassName("jsColor");
 export const range = document.getElementById("jsRange");
 export const paint = document.getElementById("jsPaint");
 export const erase = document.getElementById("jsEraser");
-// export const clear = document.getElementById("jsClear");
 export const saveBtn = document.getElementById("jsSave");
 export const exitBtn = document.getElementById("jsExit");
 
@@ -191,6 +189,7 @@ export async function handleExitClick() {
     stopRecording();
     await writeData();
     webgazer.end();
+    exitBtn.remove();
     swal.fire({
         title: "수고하셨습니다!"
     }).then(() => {
