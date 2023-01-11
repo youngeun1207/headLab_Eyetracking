@@ -305,8 +305,32 @@ li {
     font-weight: bold !important;
     font-size: 25px !important;
     margin-bottom: 10px !important;
+    line-height: 25pt;
 }
 
 .swal2-actions {
     margin-top: 5px !important;
+}
+
+.swal2-progress-step{
+    background-color: #123373 !important;
+    padding: 0;
+}
+
+.swal2-progress-step-line{
+    background-color: #123373 !important;
+}
+
+.swal2-progress-steps{
+    margin-bottom: 0px !important;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step {
+    background: #add8e6 !important;
+    color: #fff;
+    padding: 0;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line {
+    background: #add8e6 !important;
 }

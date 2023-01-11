@@ -4,7 +4,10 @@ export let userID = {
 };
 export let personalInfo = {
     age: null,
-    gender: null
+    gender: null,
+    year: null,
+    hour: null,
+    major: null
 };
 
 // export let userID = {
@@ -104,15 +107,82 @@ export async function inputAge(){
         input: 'range',
         inputAttributes: {
             min: 8,
+            max: 50,
+            step: 1
+        },
+        inputValue: 20,
+    })
+        
+    if (age) {
+        personalInfo.age = Number(age);
+     }
+}
+
+export async function inputExperience(){
+    const { value: year } = await swal.fire({
+        title: '본인이 경험한 미술 학습 경험은 몇 년인가요?',
+        input: 'range',
+        inputAttributes: {
+            min: 0,
             max: 30,
             step: 1
         },
         inputValue: 15,
     })
         
-    if (age) {
-        personalInfo.age = Number(age);
+    if (year) {
+        personalInfo.year = Number(year);
      }
+}
+
+export async function inputArtworkHour(){
+    const { value: hour } = await swal.fire({
+        title: '주당 미술 활동 시간은 몇 시간인가요??',
+        input: 'range',
+        inputAttributes: {
+            min: 0,
+            max: 30,
+            step: 1
+        },
+        inputValue: 15,
+    })
+        
+    if (hour) {
+        personalInfo.hour = Number(hour);
+     }
+}
+
+async function inputMajor() {
+    const { value: major } = await swal.fire({
+        title: '미술 전공자시라면<br>본인의 세부 전공을 선택해주세요',
+        input: 'select',
+        inputOptions: {
+            fineArt: '순수미술(서양화, 동양화, 조소 등)',
+            design: '디자인(시각, 산업, 패션 등)',
+            crafts: '공예(금속, 도자, 섬유 등)',
+            education: '미술교육',
+            history: '미술사',
+            aesthetics: '미학',
+            etc: '기타',
+            no: '해당 없음'
+        },
+        inputPlaceholder: '전공 선택',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        inputValidator: (major) => {
+            return new Promise((resolve) => {
+                if (major != '') {
+                    resolve()
+                } else {
+                    resolve('전공 선택은 필수입니다.')
+                }
+            })
+        }
+    }).then()
+
+    if (major) {
+        personalInfo.major = major;
+    }
 }
 
 export async function inputClass() {
@@ -179,9 +249,46 @@ export async function inputID() {
     })
 }
 
+async function showNotifications() {
+    const steps = ['1', '2', '3', '4']
+    const Queue = Swal.mixin({
+        progressSteps: steps,
+        title: "NOTICE",
+        confirmButtonText: '다음',
+        // optional classes to avoid backdrop blinking between steps
+        showClass: { backdrop: 'swal2-noanimation' },
+        hideClass: { backdrop: 'swal2-noanimation' }
+    })
+
+    await Queue.fire({
+        html: `본 연구는 디지털 드로잉 중 사용자의 시선 이동을 분석하는 데 <br>목적을 두고 있습니다.`,
+        currentProgressStep: 0,
+        showClass: { backdrop: 'swal2-noanimation' },
+    })
+    await Queue.fire({
+        html: '주어진 시간 10분을 최대한 채워서 그려주세요.',
+        currentProgressStep: 1
+    })
+    await Queue.fire({
+        html: '카메라를 손으로 가리지 않도록 주의해주세요.',
+        currentProgressStep: 2
+    })
+    await Queue.fire({
+        html: '되도록이면 지금 자세를 유지해주세요.',
+        currentProgressStep: 3,
+        confirmButtonText: 'OK',
+        showClass: { backdrop: 'swal2-noanimation' },
+    })
+}
+
+
 export async function inputUserInfo() {
+    await showNotifications();
     await inputAge();
     await inputGender();
+    await inputExperience();
+    await inputArtworkHour();
+    await inputMajor();
     // await inputDivision();
     // 1월 테스트
     userID.division = 'JAN';
