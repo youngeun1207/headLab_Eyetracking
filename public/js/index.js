@@ -7,8 +7,8 @@ import { calculatePrecision, CalibrationPoints, ClearCalibration, ClearCanvas, s
 import { startTimer } from './stopwatch.js';
 import { inputUserInfo, userID } from './user_info.js';
 import { Restart, startWebgaze } from './eyetracking.js';
-import { selectVersion } from './reference.js';
-import { recordVoice } from './record_voice.js';
+// import { selectVersion } from './reference.js';
+// import { recordVoice } from './record_voice.js';
 
 const REPEAT = 5;
 let PointCalibrate = 0;
@@ -20,7 +20,8 @@ export let accuracy;
 $(document).ready( async function () {
     ClearCanvas();
     await inputUserInfo();
-    await selectVersion();
+    // 1월 테스트
+    // await selectVersion();
     startWebgaze();
     Restart();
 
@@ -96,7 +97,8 @@ $(document).ready( async function () {
                                     title: "그림을 그리는 동안 지금의 자세를 유지해 주세요."
                                 })
                                 startTimer();
-                                recordVoice();
+                                // 1월 테스트: 녹음 기능 제외
+                                // recordVoice();
 
                             } else if (result.isDenied) {
                                 //use restart function to restart the calibration

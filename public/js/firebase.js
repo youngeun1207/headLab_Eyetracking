@@ -33,7 +33,7 @@ export async function writeData() {
         gaze_data: gazeData,
         accuracy: accuracy,
         is_reference: reference,
-        audio: `sound/${path}.mp3`,
+        // audio: `sound/${path}.mp3`, 1월 테스트: 녹음 기능 제외
         personal_info: personalInfo,
         process_index: timestamp,
         drawing: 'drawing/' + path,

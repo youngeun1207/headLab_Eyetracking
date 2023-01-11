@@ -1,5 +1,5 @@
 import { writeData } from "./firebase.js";
-import { stopRecording } from "./record_voice.js";
+// import { stopRecording } from "./record_voice.js";
 import { reference } from "./reference.js";
 import { stopTimer } from "./stopwatch.js";
 
@@ -186,7 +186,8 @@ export function saveOffsets(){
 }
 
 export async function handleExitClick() {
-    stopRecording();
+    // 1월 테스트: 녹음 기능 제외
+    // stopRecording();
     await writeData();
     webgazer.end();
     exitBtn.remove();
